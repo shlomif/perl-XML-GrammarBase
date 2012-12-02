@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 package MyGrammar::RNG;
 
@@ -18,6 +18,23 @@ has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "t", "da
 has '+rng_schema_basename' => (default => 'fiction-xml.rng');
 
 package main;
+
+sub _slurp
+{
+    my $filename = shift;
+
+    open my $in, '<', $filename
+        or die "Cannot open '$filename' for slurping - $!";
+
+    binmode $in, ':encoding(utf8)';
+
+    local $/;
+    my $contents = <$in>;
+
+    close($in);
+
+    return $contents;
+}
 
 {
     my $rng = MyGrammar::RNG->new();
@@ -53,22 +70,6 @@ package main;
     is ($@, '', 'No exception was thrown.');
 }
 
-sub _slurp
-{
-    my $filename = shift;
-
-    open my $in, '<', $filename
-        or die "Cannot open '$filename' for slurping - $!";
-
-    binmode $in, ':encoding(utf8)';
-
-    local $/;
-    my $contents = <$in>;
-
-    close($in);
-
-    return $contents;
-}
 
 {
     my $rng = MyGrammar::RNG->new();
@@ -86,3 +87,23 @@ sub _slurp
     # TEST
     is ($@, '', 'No exception was thrown.');
 }
+
+{
+    my $rng = MyGrammar::RNG->new();
+
+    my $xml_parser = XML::LibXML->new();
+    $xml_parser->validation(0);
+
+    my $dom = $xml_parser->parse_file(
+        File::Spec->catfile(
+            File::Spec->curdir(), "t", "data", "fiction-xml-invalid-test.xml"
+        )
+    );
+    eval {
+        $rng->rng_validate_dom($dom);
+    };
+
+    # TEST
+    ok ($@, 'An invalid XML exception was thrown.');
+}
+

@@ -10,6 +10,7 @@ README
 t/00-load.t
 t/data/screenplay-xml/xml/with-tags-inside-paragraphs.xml
 t/data/fiction-xml.rng
+t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test.xml
 t/pod-coverage.t
 t/pod.t
