@@ -16,24 +16,30 @@ Version 0.0.1
 
 use Any::Moose 'Role';
 
+use File::ShareDir qw(dist_dir);
 use XML::LibXML;
 
 our $VERSION = '0.0.1';
 
 has 'module_base' => (isa => 'Str', is => 'rw');
-has 'data_dir' => (isa => 'Str', is => 'rw');
+has 'data_dir' => (isa => 'Str', is => 'rw',
+    default => sub { return shift->_calc_default_data_dir(); },
+    lazy => 1,
+);
 has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
 has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
+
+sub _calc_default_data_dir
+{
+    my ($self) = @_;
+
+    return dist_dir( $self->module_base() );
+}
 
 sub BUILD {}
 
 after 'BUILD' => sub {
     my ($self) = @_;
-
-    my $data_dir = $self->data_dir() ||
-        dist_dir( $self->module_base() );
-
-    $self->data_dir($data_dir);
 
     my $rngschema =
         XML::LibXML::RelaxNG->new(

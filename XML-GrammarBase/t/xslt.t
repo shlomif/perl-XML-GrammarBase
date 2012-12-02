@@ -13,7 +13,7 @@ use File::Spec;
 
 with ('XML::GrammarBase::Role::XSLT');
 
-has '+module_base' => (default => 'XML::GrammarBase');
+has '+module_base' => (default => 'XML-GrammarBase');
 has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "t", "data"));
 has '+xslt_transform_basename' => (default => 'fiction-xml-to-html.xslt');
 has '+rng_schema_basename' => (default => 'fiction-xml.rng');
