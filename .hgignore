@@ -1,0 +1,8 @@
+syntax: glob
+XML-GrammarBase/blib
+XML-GrammarBase/_build
+XML-GrammarBase/Build
+XML-GrammarBase/META.json
+XML-GrammarBase/META.yml
+XML-GrammarBase/MYMETA.json
+XML-GrammarBase/MYMETA.yml
