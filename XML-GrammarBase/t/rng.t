@@ -14,7 +14,7 @@ use File::Spec;
 with ('XML::GrammarBase::Role::RelaxNG');
 
 has '+module_base' => (default => 'XML::GrammarBase');
-has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "extradata"));
+has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "t", "data"));
 has '+rng_schema_basename' => (default => 'fiction-xml.rng');
 
 package main;
