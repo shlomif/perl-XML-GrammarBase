@@ -1,4 +1,4 @@
-package XML::GrammarBase::Role::RelaxNG;
+package XML::GrammarBase::Role::XSLT;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::RelaxNG::Validate - base class for a RelaxNG validator
+XML::GrammarBase::Role::XSLT - role for an XSLT converter.
 
 =head1 VERSION
 
@@ -17,13 +17,15 @@ Version 0.0.1
 use Any::Moose 'Role';
 
 use XML::LibXML;
+use XML::LibXSLT;
 
 our $VERSION = '0.0.1';
 
-has 'module_base' => (isa => 'Str', is => 'rw');
-has 'data_dir' => (isa => 'Str', is => 'rw');
-has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
-has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
+with ('XML::GrammarBase::Role::RelaxNG');
+
+has 'xslt_transform_basename' => (isa => 'Str', is => 'rw');
+has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
+has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
 
 sub BUILD {}
 
@@ -35,16 +37,20 @@ after 'BUILD' => sub {
 
     $self->data_dir($data_dir);
 
-    my $rngschema =
-        XML::LibXML::RelaxNG->new(
-            location =>
-            File::Spec->catfile(
-                $self->data_dir(),
-                $self->rng_schema_basename(),
-            ),
-        );
+    $self->_xml_parser(XML::LibXML->new());
 
-    $self->_rng($rngschema);
+    my $xslt = XML::LibXSLT->new();
+
+    my $style_doc = $self->_xml_parser()->parse_file(
+        File::Spec->catfile(
+            $self->data_dir(),
+            $self->xslt_transform_basename(),
+        ),
+    );
+
+    $self->_stylesheet($xslt->parse_stylesheet($style_doc));
+
+    return;
 };
 
 sub _undefize
@@ -54,9 +60,28 @@ sub _undefize
     return defined($v) ? $v : "(undef)";
 }
 
-sub rng_validate_dom
+sub _calc_and_ret_dom_without_validate
 {
-    my ($self, $source_dom) = @_;
+    my $self = shift;
+    my $args = shift;
+
+    my $source = $args->{source};
+
+    return
+          exists($source->{'dom'})
+        ? $source->{'dom'}
+        : exists($source->{'string_ref'})
+        ? $self->_xml_parser()->parse_string(${$source->{'string_ref'}})
+        : $self->_xml_parser()->parse_file($source->{'file'})
+        ;
+}
+
+sub _get_dom_from_source
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $source_dom = $self->_calc_and_ret_dom_without_validate($args);
 
     my $ret_code;
 
@@ -76,31 +101,33 @@ sub rng_validate_dom
             ;
     }
 
-    return;
+    return $source_dom;
 }
 
-sub rng_validate_file
+sub perform_xslt_translation
 {
-    my ($self, $filename) = @_;
+    my ($self, $args) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
+    my $source_dom = $self->_get_dom_from_source($args);
 
-    my $dom = $xml_parser->parse_file($filename);
+    my $stylesheet = $self->_stylesheet();
 
-    return $self->rng_validate_dom($dom);
-}
+    my $results = $stylesheet->transform($source_dom);
 
-sub rng_validate_string
-{
-    my ($self, $xml_string) = @_;
+    my $medium = $args->{output};
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_string($xml_string);
-
-    return $self->rng_validate_dom($dom);
+    if ($medium eq "string")
+    {
+        return $stylesheet->output_string($results);
+    }
+    elsif ($medium eq "dom")
+    {
+        return $results;
+    }
+    else
+    {
+        confess "Unknown medium";
+    }
 }
 
 =head1 SYNOPSIS
@@ -150,6 +177,33 @@ Validates the file in $file_path using the RELAX-NG schema.
 =head2 $self->rng_validate_string($xml_string)
 
 Validates the XML in the $xml_string using the RELAX-NG schema.
+
+=head2 $converter->perform_xslt_translation
+
+=over 4
+
+=item * my $final_source = $converter->perform_xslt_translation({source => {file => $filename}, output => "string" })
+
+=item * my $final_source = $converter->perform_xslt_translation({source => {string_ref => \$buffer}, output => "string" })
+
+=item * my $final_dom = $converter->perform_xslt_translation({source => {file => $filename}, output => "dom" })
+
+=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => "dom" })
+
+=back
+
+Does the actual conversion. The C<'source'> argument points to a hash-ref with
+keys and values for the source. If C<'file'> is specified there it points to the
+filename to translate (currently the only available source). If
+C<'string_ref'> is specified it points to a reference to a string, with the
+contents of the source XML. If C<'dom'> is specified then it points to an XML
+DOM as parsed or constructed by XML::LibXML.
+
+The C<'output'> key specifies the return value. A value of C<'string'> returns
+the XML as a string, and a value of C<'dom'> returns the XML as an
+L<XML::LibXML> DOM object.
+
+=cut
 
 =head2 BUILD
 

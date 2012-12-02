@@ -3,6 +3,7 @@ Changes
 inc/Test/Run/Builder.pm
 lib/XML/GrammarBase.pm
 lib/XML/GrammarBase/Role/RelaxNG.pm
+lib/XML/GrammarBase/Role/XSLT.pm
 Makefile.PL
 MANIFEST
 META.yml
@@ -12,7 +13,11 @@ t/data/screenplay-xml/xml/with-tags-inside-paragraphs.xml
 t/data/fiction-xml.rng
 t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test.xml
+t/data/fiction-xml-test-html-xslt-output.xhtml
+t/data/fiction-xml-to-html.xslt
+t/lib/Test/XML/Ordered.pm
 t/pod-coverage.t
 t/pod.t
 t/rng.t
+t/xslt.t
 META.json
