@@ -78,6 +78,18 @@ sub rng_validate_dom
     return;
 }
 
+sub rng_validate_file
+{
+    my ($self, $filename) = @_;
+
+    my $xml_parser = XML::LibXML->new();
+    $xml_parser->validation(0);
+
+    my $dom = $xml_parser->parse_file($filename);
+
+    return $self->rng_validate_dom($dom);
+}
+
 =head1 SYNOPSIS
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
@@ -104,7 +116,11 @@ The Relax NG Schema basename.
 
 =head2 $self->rng_validate_dom($source_dom)
 
-Validates the DOM using the RELAX-NG schema.
+Validates the DOM ( $source_dom ) using the RELAX-NG schema.
+
+=head2 $self->rng_validate_file($file_path)
+
+Validates the file in $file_path using the RELAX-NG schema.
 
 =head2 BUILD
 

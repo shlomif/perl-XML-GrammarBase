@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 package MyGrammar::RNG;
 
@@ -38,3 +38,17 @@ package main;
     is ($@, '', 'No exception was thrown.');
 }
 
+{
+    my $rng = MyGrammar::RNG->new();
+
+    eval {
+        $rng->rng_validate_file(
+            File::Spec->catfile(
+                File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
+            )
+        );
+    };
+
+    # TEST
+    is ($@, '', 'No exception was thrown.');
+}
