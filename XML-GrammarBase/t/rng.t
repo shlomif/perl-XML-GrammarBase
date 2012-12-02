@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 package MyGrammar::RNG;
 
@@ -19,7 +19,7 @@ has '+rng_schema_basename' => (default => 'fiction-xml.rng');
 
 package main;
 
-sub _slurp
+sub _utf8_slurp
 {
     my $filename = shift;
 
@@ -36,74 +36,75 @@ sub _slurp
     return $contents;
 }
 
+# TEST:$c=0;
+sub test_file
 {
-    my $rng = MyGrammar::RNG->new();
+    my ($filename, $assert_cb) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
+    {
+        my $rng = MyGrammar::RNG->new();
 
-    my $dom = $xml_parser->parse_file(
-        File::Spec->catfile(
-            File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
-        )
-    );
-    eval {
-        $rng->rng_validate_dom($dom);
-    };
+        my $xml_parser = XML::LibXML->new();
+        $xml_parser->validation(0);
 
-    # TEST
-    is ($@, '', 'No exception was thrown.');
+        my $dom = $xml_parser->parse_file($filename);
+        eval {
+            $rng->rng_validate_dom($dom);
+        };
+
+        # TEST:$c++;
+        $assert_cb->($@, "rng_validate_dom()");
+    }
+
+    {
+        my $rng = MyGrammar::RNG->new();
+
+        eval {
+            $rng->rng_validate_file($filename);
+        };
+
+        # TEST:$c++;
+        $assert_cb->($@, "rng_validate_file()");
+    }
+
+
+    {
+        my $rng = MyGrammar::RNG->new();
+
+        eval {
+            $rng->rng_validate_string(_utf8_slurp($filename));
+        };
+
+        # TEST:$c++;
+        $assert_cb->($@, "rng_validate_string()");
+    }
 }
 
-{
-    my $rng = MyGrammar::RNG->new();
+# TEST:$test_file=$c;
 
-    eval {
-        $rng->rng_validate_file(
-            File::Spec->catfile(
-                File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
-            )
-        );
-    };
+test_file(
+    File::Spec->catfile(
+        File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
+    ),
+    sub {
+        my $Err = shift;
+        my $blurb = shift;
 
-    # TEST
-    is ($@, '', 'No exception was thrown.');
-}
+        # TEST*$test_file
+        is ($Err, '', "$blurb - No exception was thrown", );
+    }
+);
 
+test_file(
+    File::Spec->catfile(
+        File::Spec->curdir(), "t", "data", "fiction-xml-invalid-test.xml"
+    ),
+    sub {
+        my $Err = shift;
+        my $blurb = shift;
 
-{
-    my $rng = MyGrammar::RNG->new();
-
-    eval {
-        $rng->rng_validate_string(
-            _slurp(
-                File::Spec->catfile(
-                    File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
-                )
-            ),
-        );
-    };
-
-    # TEST
-    is ($@, '', 'No exception was thrown.');
-}
-
-{
-    my $rng = MyGrammar::RNG->new();
-
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_file(
-        File::Spec->catfile(
-            File::Spec->curdir(), "t", "data", "fiction-xml-invalid-test.xml"
-        )
-    );
-    eval {
-        $rng->rng_validate_dom($dom);
-    };
-
-    # TEST
-    ok ($@, 'An invalid XML exception was thrown.');
-}
+        # TEST*$test_file
+        ok ($Err, "$blurb - An exception was thrown",);
+    }
+);
 
