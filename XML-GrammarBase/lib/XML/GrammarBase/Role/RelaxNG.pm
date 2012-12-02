@@ -1,4 +1,4 @@
-package XML::GrammarBase::RelaxNG::Validate;
+package XML::GrammarBase::Role::RelaxNG;
 
 use strict;
 use warnings;
@@ -14,14 +14,62 @@ Version 0.0.1
 
 =cut
 
-use Any::Moose;
+use Any::Moose 'Role';
+
+use XML::LibXML;
 
 our $VERSION = '0.0.1';
 
-has '_cfg' => (isa => "XML::GrammarBase::Conf", is => 'rw');
-has '_data_dir' => (isa => 'Str', is => 'rw');
+has '_module_base' => (isa => 'Str', is => 'rw');
+has 'data_dir' => (isa => 'Str', is => 'rw');
+has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
 has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
-has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
+
+sub BUILD
+{
+    my ($self) = @_;
+
+    my $data_dir = $self->_data_dir_from_input() ||
+        dist_dir( $self->_module_base() );
+
+    $self->data_dir($data_dir);
+
+    my $rngschema =
+        XML::LibXML::RelaxNG->new(
+            location =>
+            File::Spec->catfile(
+                $self->data_dir(),
+                $self->rng_schema_basename(),
+            ),
+        );
+
+    $self->_rng($rngschema);
+}
+
+sub rng_validate_dom
+{
+    my ($self, $source_dom) = @_;
+
+    my $ret_code;
+
+    eval
+    {
+        $ret_code = $self->_rng()->validate($source_dom);
+    };
+
+    if (defined($ret_code) && ($ret_code == 0))
+    {
+        # It's OK.
+    }
+    else
+    {
+        confess "RelaxNG validation failed [\$ret_code == "
+            . _undefize($ret_code) . " ; $@]"
+            ;
+    }
+
+    return;
+}
 
 =head1 SYNOPSIS
 
@@ -29,13 +77,31 @@ has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
 
     use Any::Moose;
 
-    extends(
-        "XML::GrammarBase::RelaxNG::Validate"
-    );
+    with ('XML::GrammarBase::Role::RelaxNG');
 
-    TODO : Fill in.
+=head1 SLOTS
 
-=head1 FUNCTIONS
+=head2 _module_base
+
+The basename of the module - used for dist dir.
+
+=head2 data_dir
+
+The data directory where the XML assets can be found (the RELAX NG schema, etc.)
+
+=head2 rng_schema_basename
+
+The Relax NG Schema basename.
+
+=head1 METHODS
+
+=head2 $self->rng_validate_dom($source_dom)
+
+Validates the DOM using the RELAX-NG schema.
+
+=head2 BUILD
+
+L<Any::Moose> constructor. For internal use.
 
 =head1 AUTHOR
 
