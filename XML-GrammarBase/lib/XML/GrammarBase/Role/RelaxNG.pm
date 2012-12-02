@@ -20,7 +20,7 @@ use XML::LibXML;
 
 our $VERSION = '0.0.1';
 
-has '_module_base' => (isa => 'Str', is => 'rw');
+has 'module_base' => (isa => 'Str', is => 'rw');
 has 'data_dir' => (isa => 'Str', is => 'rw');
 has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
 has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
@@ -29,8 +29,8 @@ sub BUILD
 {
     my ($self) = @_;
 
-    my $data_dir = $self->_data_dir_from_input() ||
-        dist_dir( $self->_module_base() );
+    my $data_dir = $self->data_dir() ||
+        dist_dir( $self->module_base() );
 
     $self->data_dir($data_dir);
 
@@ -44,6 +44,13 @@ sub BUILD
         );
 
     $self->_rng($rngschema);
+}
+
+sub _undefize
+{
+    my $v = shift;
+
+    return defined($v) ? $v : "(undef)";
 }
 
 sub rng_validate_dom
@@ -81,7 +88,7 @@ sub rng_validate_dom
 
 =head1 SLOTS
 
-=head2 _module_base
+=head2 module_base
 
 The basename of the module - used for dist dir.
 
