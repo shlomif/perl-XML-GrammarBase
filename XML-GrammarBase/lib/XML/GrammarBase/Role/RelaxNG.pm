@@ -110,6 +110,18 @@ sub rng_validate_string
 
     with ('XML::GrammarBase::Role::RelaxNG');
 
+    has '+module_base' => (default => 'XML::Grammar::MyGrammar');
+    has '+rng_schema_basename' => (default => 'my-grammar.rng');
+
+    package main;
+
+    my $rnger = XML::Grammar::MyGrammar::RelaxNG::Validate->new(
+        data_dir => "/path/to/data-dir",
+    );
+
+    # Throws an exception on failure.
+    $rnger->rng_validate_file("/different-path-to-xml-file.xml");
+
 =head1 SLOTS
 
 =head2 module_base
