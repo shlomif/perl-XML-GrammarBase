@@ -12,6 +12,9 @@ my $builder = Test::Run::Builder->new(
     dist_version_from   => 'lib/XML/GrammarBase.pm',
     requires => {
         'Any::Moose' => 0,
+        'File::ShareDir' => 0,
+        'XML::LibXML' => 0,
+        'XML::LibXSLT' => 0,
         'strict' => 0,
         'warnings' => 0,
     },
