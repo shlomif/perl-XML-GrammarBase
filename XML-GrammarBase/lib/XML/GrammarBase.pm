@@ -5,7 +5,8 @@ use strict;
 
 =head1 NAME
 
-XML::GrammarBase - Provide base classes for processors of specialized XML grammars.
+XML::GrammarBase - Provide roles and base classes for processors of
+specialized XML grammars.
 
 =head1 VERSION
 
@@ -20,13 +21,25 @@ our $VERSION = '0.0.1';
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
 
-    use Moose;
+    use Any::Moose;
 
     has '_cfg' => (isa => "XML::Grammar::MyGrammar::Conf", is => "rw");
 
     extends(
         "XML::GrammarBase::RelaxNG::Validate"
     );
+
+=head1 DESCRIPTION
+
+XML::GrammarBase aims to be a convenient framework for easily providing
+processors for XML grammars (such as those under the XML::Grammar namespace
+- L<http://www.shlomifish.org/open-source/projects/XML-Grammar/> ).
+
+It provides roles and base classes for facilitating writing those.
+
+=head1 SEE ALSO
+
+L<XML::GrammarBase::Role::RelaxNG> .
 
 =head1 FUNCTIONS
 
