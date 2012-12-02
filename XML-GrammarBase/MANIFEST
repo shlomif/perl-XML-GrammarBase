@@ -1,5 +1,6 @@
 Build.PL
 Changes
+extradata/fiction-xml.rng
 inc/Test/Run/Builder.pm
 lib/XML/GrammarBase.pm
 lib/XML/GrammarBase/Role/RelaxNG.pm
@@ -9,6 +10,8 @@ META.yml
 README
 t/00-load.t
 t/data/screenplay-xml/xml/with-tags-inside-paragraphs.xml
+t/data/fiction-xml-test.xml
 t/pod-coverage.t
 t/pod.t
+t/rng.t
 META.json
