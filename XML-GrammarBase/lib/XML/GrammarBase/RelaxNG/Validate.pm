@@ -14,7 +14,7 @@ Version 0.0.1
 
 =cut
 
-use Moose;
+use Any::Moose;
 
 our $VERSION = '0.0.1';
 
@@ -27,7 +27,7 @@ has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
 
-    use Moose;
+    use Any::Moose;
 
     extends(
         "XML::GrammarBase::RelaxNG::Validate"

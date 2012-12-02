@@ -10,6 +10,11 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => q{Shlomi Fish <shlomif@cpan.org>},
     dist_version_from   => 'lib/XML/GrammarBase.pm',
+    requires => {
+        'Any::Moose' => 0,
+        'strict' => 0,
+        'warnings' => 0,
+    },
     build_requires => {
         'Test::More' => 0,
     },
