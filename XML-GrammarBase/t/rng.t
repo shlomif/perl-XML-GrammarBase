@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 package MyGrammar::RNG;
 
@@ -46,6 +46,40 @@ package main;
             File::Spec->catfile(
                 File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
             )
+        );
+    };
+
+    # TEST
+    is ($@, '', 'No exception was thrown.');
+}
+
+sub _slurp
+{
+    my $filename = shift;
+
+    open my $in, '<', $filename
+        or die "Cannot open '$filename' for slurping - $!";
+
+    binmode $in, ':encoding(utf8)';
+
+    local $/;
+    my $contents = <$in>;
+
+    close($in);
+
+    return $contents;
+}
+
+{
+    my $rng = MyGrammar::RNG->new();
+
+    eval {
+        $rng->rng_validate_string(
+            _slurp(
+                File::Spec->catfile(
+                    File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
+                )
+            ),
         );
     };
 
