@@ -37,20 +37,22 @@ has '_xslt_parser' => (
     default => sub { return XML::LibXSLT->new; },
     lazy => 1,
 );
+has '_stylesheet' => (
+    isa => "XML::LibXSLT::StylesheetWrapper",
+    is => 'rw',
+    default => sub { return shift->_calc_stylesheet(), },
+    lazy => 1,
+);
 
-sub BUILD {}
-
-after 'BUILD' => sub {
-    my ($self) = @_;
+sub _calc_stylesheet {
+    my $self = shift;
 
     my $style_doc = $self->_xml_parser()->parse_file(
         $self->dist_path_slot('xslt_transform_basename'),
     );
 
-    $self->_stylesheet($self->_xslt_parser->parse_stylesheet($style_doc));
-
-    return;
-};
+    return $self->_xslt_parser->parse_stylesheet($style_doc);
+}
 
 sub _undefize
 {
