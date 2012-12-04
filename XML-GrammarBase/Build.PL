@@ -13,13 +13,14 @@ my $builder = Test::Run::Builder->new(
     requires => {
         'autodie' => 0,
         'File::ShareDir' => 0,
-        'MooX::late' => 0,
         'Moo::Role' => 0,
         'MooX' => 0,
-        'XML::LibXML' => '2.0013',
-        'XML::LibXSLT' => 0,
+        'MooX::late' => 0,
+        'MooX::Types::MooseLike' => 0,
         'strict' => 0,
         'warnings' => 0,
+        'XML::LibXML' => '2.0013',
+        'XML::LibXSLT' => 0,
     },
     build_requires => {
         'File::Temp' => 0,
