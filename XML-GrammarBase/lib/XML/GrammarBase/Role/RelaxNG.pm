@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::RelaxNG::Validate - base class for a RelaxNG validator
+XML::GrammarBase::Role::RelaxNG - base class for a RelaxNG validator
 
 =head1 VERSION
 
