@@ -14,7 +14,9 @@ Version 0.0.1
 
 =cut
 
-use Any::Moose 'Role';
+use Moo::Role;
+
+use MooX 'late';
 
 use XML::LibXML;
 use XML::LibXSLT;

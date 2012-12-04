@@ -7,7 +7,7 @@ use Test::More tests => 6;
 
 package MyGrammar::RNG;
 
-use Any::Moose;
+use MooX 'late';
 
 use File::Spec;
 

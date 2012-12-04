@@ -19,15 +19,7 @@ our $VERSION = '0.0.1';
 
 =head1 SYNOPSIS
 
-    package XML::Grammar::MyGrammar::RelaxNG::Validate;
-
-    use Any::Moose;
-
-    has '_cfg' => (isa => "XML::Grammar::MyGrammar::Conf", is => "rw");
-
-    extends(
-        "XML::GrammarBase::RelaxNG::Validate"
-    );
+See the ones under the Role packages.
 
 =head1 DESCRIPTION
 
