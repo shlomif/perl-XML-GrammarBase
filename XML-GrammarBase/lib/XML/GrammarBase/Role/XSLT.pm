@@ -19,6 +19,8 @@ use Any::Moose 'Role';
 use XML::LibXML;
 use XML::LibXSLT;
 
+use autodie;
+
 our $VERSION = '0.0.1';
 
 with ('XML::GrammarBase::Role::RelaxNG');
@@ -113,22 +115,50 @@ sub perform_xslt_translation
 
     my $stylesheet = $self->_stylesheet();
 
-    my $results = $stylesheet->transform($source_dom);
 
     my $medium = $args->{output};
 
-    if ($medium eq "string")
+    my $is_string = ($medium eq 'string');
+    my $is_dom = ($medium eq 'dom');
+
+    if ($is_string or $is_dom)
     {
-        return $stylesheet->output_string($results);
+        my $results = $stylesheet->transform($source_dom);
+
+        return
+            $is_dom
+            ? $results
+            : $stylesheet->output_string($results)
+            ;
     }
-    elsif ($medium eq "dom")
+    elsif (ref($medium) eq 'HASH')
     {
-        return $results;
+        if (exists($medium->{'file'}))
+        {
+            open my $out, '>', $medium->{'file'};
+            $self->perform_xslt_translation(
+                {
+                    %$args,
+                    output => {fh => $out,},
+                }
+            );
+            close ($out);
+            return;
+        }
+        if (exists($medium->{'fh'}))
+        {
+            print {$medium->{'fh'}}
+            $self->perform_xslt_translation(
+                {
+                    %$args,
+                    output => "string",
+                }
+            );
+            return;
+        }
     }
-    else
-    {
-        confess "Unknown medium";
-    }
+
+    confess "Unknown medium";
 }
 
 =head1 SYNOPSIS
@@ -191,6 +221,10 @@ Validates the XML in the $xml_string using the RELAX-NG schema.
 
 =item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => "dom" })
 
+=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => {file => $path_to_file,}, })
+
+=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => {fh => $filehandle,}, })
+
 =back
 
 Does the actual conversion. The C<'source'> argument points to a hash-ref with
@@ -202,7 +236,8 @@ DOM as parsed or constructed by XML::LibXML.
 
 The C<'output'> key specifies the return value. A value of C<'string'> returns
 the XML as a string, and a value of C<'dom'> returns the XML as an
-L<XML::LibXML> DOM object.
+L<XML::LibXML> DOM object. If it is a hash ref then it specifies a
+C<'file'> or a C<'fh'> with a filepath or filehandle respectively.
 
 =cut
 
