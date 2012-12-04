@@ -32,10 +32,7 @@ sub BUILD {}
 after 'BUILD' => sub {
     my ($self) = @_;
 
-    my $data_dir = $self->data_dir() ||
-        dist_dir( $self->module_base() );
-
-    $self->data_dir($data_dir);
+    my $data_dir = $self->data_dir();
 
     $self->_xml_parser(XML::LibXML->new());
 
