@@ -32,8 +32,6 @@ sub BUILD {}
 after 'BUILD' => sub {
     my ($self) = @_;
 
-    my $data_dir = $self->data_dir();
-
     $self->_xml_parser(XML::LibXML->new());
 
     my $xslt = XML::LibXSLT->new();
