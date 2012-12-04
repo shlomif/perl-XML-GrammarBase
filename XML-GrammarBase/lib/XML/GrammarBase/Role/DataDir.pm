@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::Role::RelaxNG - base class for a RelaxNG validator
+XML::GrammarBase::Role::DataDir - provide the data_dir accessor.
 
 =head1 VERSION
 
@@ -19,102 +19,58 @@ use Moo::Role;
 use MooX 'late';
 
 use File::ShareDir qw(dist_dir);
-use XML::LibXML;
-
-with ('XML::GrammarBase::Role::DataDir');
 
 our $VERSION = '0.0.1';
 
-has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
-has '_rng' =>
-(
-    isa => 'XML::LibXML::RelaxNG',
-    is => 'rw',
-    default => sub { return shift->_calc_default_rng_schema; },
+has 'module_base' => (isa => 'Str', is => 'rw');
+has 'data_dir' => (isa => 'Str', is => 'rw',
+    default => sub { return shift->_calc_default_data_dir(); },
     lazy => 1,
 );
 
-sub _calc_default_rng_schema
+sub _calc_default_data_dir
 {
     my ($self) = @_;
 
-    my $rngschema =
-        XML::LibXML::RelaxNG->new(
-            location =>
-            $self->dist_path_slot('rng_schema_basename'),
-        );
-
-    return $rngschema;
+    return dist_dir( $self->module_base() );
 }
 
-sub rng_validate_dom
+sub _undefize
 {
-    my ($self, $source_dom) = @_;
+    my $v = shift;
 
-    my $ret_code;
-
-    eval
-    {
-        $ret_code = $self->_rng()->validate($source_dom);
-    };
-
-    if (defined($ret_code) && ($ret_code == 0))
-    {
-        # It's OK.
-    }
-    else
-    {
-        confess "RelaxNG validation failed [\$ret_code == "
-            . _undefize($ret_code) . " ; $@]"
-            ;
-    }
-
-    return;
+    return defined($v) ? $v : "(undef)";
 }
 
-sub rng_validate_file
+sub dist_path
 {
-    my ($self, $filename) = @_;
+    my ($self, $basename) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_file($filename);
-
-    return $self->rng_validate_dom($dom);
+    return File::Spec->catfile($self->data_dir, $basename);
 }
 
-sub rng_validate_string
+sub dist_path_slot
 {
-    my ($self, $xml_string) = @_;
+    my ($self, $slot) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_string($xml_string);
-
-    return $self->rng_validate_dom($dom);
+    return $self->dist_path($self->$slot());
 }
 
 =head1 SYNOPSIS
 
-    package XML::Grammar::MyGrammar::RelaxNG::Validate;
+    package MyClass::WithDataDir;
 
-    use Any::Moose;
+    use MooX 'late';
 
-    with ('XML::GrammarBase::Role::RelaxNG');
+    with ('XML::GrammarBase::Role::DataDir');
 
     has '+module_base' => (default => 'XML::Grammar::MyGrammar');
-    has '+rng_schema_basename' => (default => 'my-grammar.rng');
 
     package main;
 
-    my $rnger = XML::Grammar::MyGrammar::RelaxNG::Validate->new(
+    my $obj = MyClass::WithDataDir->new(
         data_dir => "/path/to/data-dir",
     );
-
-    # Throws an exception on failure.
-    $rnger->rng_validate_file("/different-path-to-xml-file.xml");
 
 =head1 SLOTS
 
@@ -126,23 +82,7 @@ The basename of the module - used for dist dir.
 
 The data directory where the XML assets can be found (the RELAX NG schema, etc.)
 
-=head2 rng_schema_basename
-
-The Relax NG Schema basename.
-
 =head1 METHODS
-
-=head2 $self->rng_validate_dom($source_dom)
-
-Validates the DOM ( $source_dom ) using the RELAX-NG schema.
-
-=head2 $self->rng_validate_file($file_path)
-
-Validates the file in $file_path using the RELAX-NG schema.
-
-=head2 $self->rng_validate_string($xml_string)
-
-Validates the XML in the $xml_string using the RELAX-NG schema.
 
 =head2 $self->dist_path($basename)
 
@@ -155,10 +95,6 @@ Utility method.
 Returns the basename of $self->$slot() relative to data_dir().
 
 Utility method.
-
-=head2 BUILD
-
-L<Any::Moose> constructor. For internal use.
 
 =head1 AUTHOR
 
