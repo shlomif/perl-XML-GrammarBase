@@ -25,22 +25,29 @@ with ('XML::GrammarBase::Role::RelaxNG');
 
 has 'xslt_transform_basename' => (isa => 'Str', is => 'rw');
 has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
-has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
+has '_xml_parser' => (
+    isa => "XML::LibXML",
+    is => 'rw',
+    default => sub { return XML::LibXML->new; },
+    lazy => 1,
+);
+has '_xslt_parser' => (
+    isa => "XML::LibXSLT",
+    is => 'rw',
+    default => sub { return XML::LibXSLT->new; },
+    lazy => 1,
+);
 
 sub BUILD {}
 
 after 'BUILD' => sub {
     my ($self) = @_;
 
-    $self->_xml_parser(XML::LibXML->new());
-
-    my $xslt = XML::LibXSLT->new();
-
     my $style_doc = $self->_xml_parser()->parse_file(
         $self->dist_path_slot('xslt_transform_basename'),
     );
 
-    $self->_stylesheet($xslt->parse_stylesheet($style_doc));
+    $self->_stylesheet($self->_xslt_parser->parse_stylesheet($style_doc));
 
     return;
 };
