@@ -20,8 +20,6 @@ has '+rng_schema_basename' => (default => 'fiction-xml.rng');
 
 package main;
 
-use lib "./t/lib";
-
 use Test::XML::Ordered qw(is_xml_ordered);
 
 use File::Temp qw(tempfile);
@@ -67,6 +65,7 @@ sub test_file
         is_xml_ordered(
             [ string => $final_source, ],
             [ string => $xml_source, ],
+            {},
             "'$input_fn' generated good output on source/input_filename - output - string"
         );
     }
@@ -85,6 +84,7 @@ sub test_file
         is_xml_ordered(
             [ string => $final_source, ],
             [ string => $xml_source, ],
+            {},
             "'$input_fn' generated good output on source/string_ref - output - string"
         );
     }
@@ -103,6 +103,7 @@ sub test_file
         is_xml_ordered(
             [ string => $final_dom->toString(), ],
             [ string => $xml_source, ],
+            {},
             "'$input_fn' generated good output on source/string_ref - output - dom"
         );
     }
@@ -124,6 +125,7 @@ sub test_file
         is_xml_ordered(
             [ string => $final_source, ],
             [ string => $xml_source, ],
+            {},
             "'$input_fn' generated good output on source/string_ref - output/file"
         );
     }
@@ -147,6 +149,7 @@ sub test_file
         is_xml_ordered(
             [ string => $final_source, ],
             [ string => $xml_source, ],
+            {},
             "'$input_fn' generated good output on source/string_ref - output/fh"
         );
     }

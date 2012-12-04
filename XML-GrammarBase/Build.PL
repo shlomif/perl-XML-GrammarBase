@@ -21,6 +21,7 @@ my $builder = Test::Run::Builder->new(
     build_requires => {
         'File::Temp' => 0,
         'Test::More' => 0,
+        'Test::XML::Ordered' => 0,
     },
     add_to_cleanup      => [ 'XML-GrammarBase-*' ],
     create_makefile_pl => 'traditional',
