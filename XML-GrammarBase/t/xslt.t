@@ -7,7 +7,7 @@ use Test::More tests => 5;
 
 package MyGrammar::XSLT;
 
-use Any::Moose;
+use MooX 'late';
 
 use File::Spec;
 
