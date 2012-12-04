@@ -27,7 +27,13 @@ has 'data_dir' => (isa => 'Str', is => 'rw',
     lazy => 1,
 );
 has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
-has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
+has '_rng' =>
+(
+    isa => 'XML::LibXML::RelaxNG',
+    is => 'rw',
+    default => sub { return shift->_calc_default_rng_schema; },
+    lazy => 1,
+);
 
 sub _calc_default_data_dir
 {
@@ -36,9 +42,8 @@ sub _calc_default_data_dir
     return dist_dir( $self->module_base() );
 }
 
-sub BUILD {}
-
-after 'BUILD' => sub {
+sub _calc_default_rng_schema
+{
     my ($self) = @_;
 
     my $rngschema =
@@ -50,8 +55,8 @@ after 'BUILD' => sub {
             ),
         );
 
-    $self->_rng($rngschema);
-};
+    return $rngschema;
+}
 
 sub _undefize
 {
