@@ -21,3 +21,4 @@ t/pod.t
 t/rng.t
 t/xslt.t
 META.json
+TODO.pod
