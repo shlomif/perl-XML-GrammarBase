@@ -15,7 +15,6 @@ t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test.xml
 t/data/fiction-xml-test-html-xslt-output.xhtml
 t/data/fiction-xml-to-html.xslt
-t/lib/Test/XML/Ordered.pm
 t/pod-coverage.t
 t/pod.t
 t/rng.t
