@@ -49,10 +49,7 @@ sub _calc_default_rng_schema
     my $rngschema =
         XML::LibXML::RelaxNG->new(
             location =>
-            File::Spec->catfile(
-                $self->data_dir(),
-                $self->rng_schema_basename(),
-            ),
+            $self->dist_path_slot('rng_schema_basename'),
         );
 
     return $rngschema;
@@ -114,6 +111,20 @@ sub rng_validate_string
     return $self->rng_validate_dom($dom);
 }
 
+sub dist_path
+{
+    my ($self, $basename) = @_;
+
+    return File::Spec->catfile($self->data_dir, $basename);
+}
+
+sub dist_path_slot
+{
+    my ($self, $slot) = @_;
+
+    return $self->dist_path($self->$slot());
+}
+
 =head1 SYNOPSIS
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
@@ -161,6 +172,18 @@ Validates the file in $file_path using the RELAX-NG schema.
 =head2 $self->rng_validate_string($xml_string)
 
 Validates the XML in the $xml_string using the RELAX-NG schema.
+
+=head2 $self->dist_path($basename)
+
+Returns the $basename relative to data_dir().
+
+Utility method.
+
+=head2 $self->dist_path_slot($slot)
+
+Returns the basename of $self->$slot() relative to data_dir().
+
+Utility method.
 
 =head2 BUILD
 

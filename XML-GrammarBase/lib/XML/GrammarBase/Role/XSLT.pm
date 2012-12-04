@@ -39,10 +39,7 @@ after 'BUILD' => sub {
     my $xslt = XML::LibXSLT->new();
 
     my $style_doc = $self->_xml_parser()->parse_file(
-        File::Spec->catfile(
-            $self->data_dir(),
-            $self->xslt_transform_basename(),
-        ),
+        $self->dist_path_slot('xslt_transform_basename'),
     );
 
     $self->_stylesheet($xslt->parse_stylesheet($style_doc));
