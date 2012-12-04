@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 package MyGrammar::XSLT;
 
@@ -125,6 +125,29 @@ sub test_file
             [ string => $final_source, ],
             [ string => $xml_source, ],
             "'$input_fn' generated good output on source/string_ref - output/file"
+        );
+    }
+
+    {
+        my ($fh, $filename) = tempfile();
+
+        $xslt->perform_xslt_translation(
+            {
+                source => {string_ref => \(_utf8_slurp($input_fn)) },
+                output => {fh => $fh, },
+            }
+        );
+
+        close($fh);
+
+        my $xml_source = _utf8_slurp($output_fn);
+        my $final_source = _utf8_slurp($filename);
+
+        # TEST:$c++;
+        is_xml_ordered(
+            [ string => $final_source, ],
+            [ string => $xml_source, ],
+            "'$input_fn' generated good output on source/string_ref - output/fh"
         );
     }
     return;
