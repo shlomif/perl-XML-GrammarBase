@@ -19,6 +19,7 @@ my $builder = Test::Run::Builder->new(
         'warnings' => 0,
     },
     build_requires => {
+        'File::Temp' => 0,
         'Test::More' => 0,
     },
     add_to_cleanup      => [ 'XML-GrammarBase-*' ],
