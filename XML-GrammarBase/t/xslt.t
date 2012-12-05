@@ -24,6 +24,22 @@ use Test::XML::Ordered qw(is_xml_ordered);
 
 use File::Temp qw(tempfile);
 
+my @is_xml_common = (validation => 0, load_ext_dtd => 0, no_network => 1);
+
+sub my_is_xml
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my ($got, $expected, $blurb) = @_;
+
+    return is_xml_ordered(
+        [ @{$got}, @is_xml_common, ],
+        [ @{$expected}, @is_xml_common, ],
+        {},
+        $blurb,
+    );
+}
+
 sub _utf8_slurp
 {
     my $filename = shift;
@@ -62,10 +78,9 @@ sub test_file
         my $xml_source = _utf8_slurp($output_fn);
 
         # TEST:$c++;
-        is_xml_ordered(
+        my_is_xml(
             [ string => $final_source, ],
             [ string => $xml_source, ],
-            {},
             "'$input_fn' generated good output on source/input_filename - output - string"
         );
     }
@@ -81,10 +96,9 @@ sub test_file
         my $xml_source = _utf8_slurp($output_fn);
 
         # TEST:$c++;
-        is_xml_ordered(
+        my_is_xml(
             [ string => $final_source, ],
             [ string => $xml_source, ],
-            {},
             "'$input_fn' generated good output on source/string_ref - output - string"
         );
     }
@@ -100,10 +114,9 @@ sub test_file
         my $xml_source = _utf8_slurp($output_fn);
 
         # TEST:$c++;
-        is_xml_ordered(
+        my_is_xml(
             [ string => $final_dom->toString(), ],
             [ string => $xml_source, ],
-            {},
             "'$input_fn' generated good output on source/string_ref - output - dom"
         );
     }
@@ -122,10 +135,9 @@ sub test_file
         my $final_source = _utf8_slurp($filename);
 
         # TEST:$c++;
-        is_xml_ordered(
+        my_is_xml(
             [ string => $final_source, ],
             [ string => $xml_source, ],
-            {},
             "'$input_fn' generated good output on source/string_ref - output/file"
         );
     }
@@ -146,10 +158,9 @@ sub test_file
         my $final_source = _utf8_slurp($filename);
 
         # TEST:$c++;
-        is_xml_ordered(
+        my_is_xml(
             [ string => $final_source, ],
             [ string => $xml_source, ],
-            {},
             "'$input_fn' generated good output on source/string_ref - output/fh"
         );
     }
