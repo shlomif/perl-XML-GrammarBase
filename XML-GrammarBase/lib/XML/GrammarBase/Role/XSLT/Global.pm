@@ -41,6 +41,123 @@ has '_xslt_parser' => (
     lazy => 1,
 );
 
+sub _calc_stylesheet {
+    my ($self, $output_format) = @_;
+
+    my $style_doc = $self->_xml_parser()->parse_file(
+        $self->dist_path_slot("to_{$output_format}_xslt_transform_basename"),
+    );
+
+    return $self->_xslt_parser->parse_stylesheet($style_doc);
+}
+
+sub _undefize
+{
+    my $v = shift;
+
+    return defined($v) ? $v : "(undef)";
+}
+
+sub _calc_and_ret_dom_without_validate
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $source = $args->{source};
+
+    return
+          exists($source->{'dom'})
+        ? $source->{'dom'}
+        : exists($source->{'string_ref'})
+        ? $self->_xml_parser()->parse_string(${$source->{'string_ref'}})
+        : $self->_xml_parser()->parse_file($source->{'file'})
+        ;
+}
+
+sub _get_dom_from_source
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $source_dom = $self->_calc_and_ret_dom_without_validate($args);
+
+    my $ret_code;
+
+    eval
+    {
+        $ret_code = $self->_rng()->validate($source_dom);
+    };
+
+    if (defined($ret_code) && ($ret_code == 0))
+    {
+        # It's OK.
+    }
+    else
+    {
+        confess "RelaxNG validation failed [\$ret_code == "
+            . _undefize($ret_code) . " ; $@]"
+            ;
+    }
+
+    return $source_dom;
+}
+
+sub perform_xslt_translation
+{
+    my ($self, $args) = @_;
+
+    my $output_format = $args->{output_format};
+    my $source_dom = $self->_get_dom_from_source($args);
+
+    my $stylesheet_method = "_to_${output_format}_stylesheet";
+    my $stylesheet = $self->$stylesheet_method();
+
+
+    my $medium = $args->{output};
+
+    my $is_string = ($medium eq 'string');
+    my $is_dom = ($medium eq 'dom');
+
+    if ($is_string or $is_dom)
+    {
+        my $results = $stylesheet->transform($source_dom);
+
+        return
+            $is_dom
+            ? $results
+            : $stylesheet->output_string($results)
+            ;
+    }
+    elsif (ref($medium) eq 'HASH')
+    {
+        if (exists($medium->{'file'}))
+        {
+            open my $out, '>', $medium->{'file'};
+            $self->perform_xslt_translation(
+                {
+                    %$args,
+                    output => {fh => $out,},
+                }
+            );
+            close ($out);
+            return;
+        }
+        if (exists($medium->{'fh'}))
+        {
+            print {$medium->{'fh'}}
+            $self->perform_xslt_translation(
+                {
+                    %$args,
+                    output => "string",
+                }
+            );
+            return;
+        }
+    }
+
+    confess "Unknown medium";
+}
+
 =head1 SYNOPSIS
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
