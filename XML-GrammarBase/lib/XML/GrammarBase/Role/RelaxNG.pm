@@ -65,7 +65,7 @@ sub rng_validate_dom
     else
     {
         confess "RelaxNG validation failed [\$ret_code == "
-            . _undefize($ret_code) . " ; $@]"
+            . $self->_undefize($ret_code) . " ; $@]"
             ;
     }
 

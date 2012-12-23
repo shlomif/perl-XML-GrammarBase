@@ -51,13 +51,6 @@ sub _calc_stylesheet {
     return $self->_xslt_parser->parse_stylesheet($style_doc);
 }
 
-sub _undefize
-{
-    my $v = shift;
-
-    return defined($v) ? $v : "(undef)";
-}
-
 sub _calc_and_ret_dom_without_validate
 {
     my $self = shift;
@@ -95,7 +88,7 @@ sub _get_dom_from_source
     else
     {
         confess "RelaxNG validation failed [\$ret_code == "
-            . _undefize($ret_code) . " ; $@]"
+            . $self->_undefize($ret_code) . " ; $@]"
             ;
     }
 
