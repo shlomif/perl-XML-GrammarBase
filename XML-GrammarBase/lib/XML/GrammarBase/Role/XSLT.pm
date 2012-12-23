@@ -49,6 +49,7 @@ sub make_variant
 
     return;
 }
+
 =head1 SYNOPSIS
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
