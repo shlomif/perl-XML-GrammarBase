@@ -171,6 +171,12 @@ sub perform_xslt_translation
 This is a utility global (non-variant) role used by
 L<XML::GrammarBase::Role::XSLT> . For internal use.
 
+=head1 METHODS
+
+=head2 $self->perform_xslt_translation(...)
+
+See L<XML::GrammarBase::Role::XSLT> .
+
 =head1 AUTHOR
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
