@@ -20,6 +20,7 @@ my $builder = Test::Run::Builder->new(
         'MooX' => 0,
         'MooX::late' => 0,
         'MooX::Types::MooseLike' => 0,
+        'Package::Variant' => 0,
         'strict' => 0,
         'warnings' => 0,
         'XML::LibXML' => '2.0013',
