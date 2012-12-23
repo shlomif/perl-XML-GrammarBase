@@ -5,6 +5,7 @@ lib/XML/GrammarBase.pm
 lib/XML/GrammarBase/Role/DataDir.pm
 lib/XML/GrammarBase/Role/RelaxNG.pm
 lib/XML/GrammarBase/Role/XSLT.pm
+lib/XML/GrammarBase/Role/XSLT/Global.pm
 Makefile.PL
 MANIFEST
 META.yml
