@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::Role::XSLT - role for an XSLT converter.
+XML::GrammarBase::Role::XSLT - a parameterized role for an XSLT converter.
 
 =head1 VERSION
 
@@ -14,7 +14,9 @@ Version 0.0.1
 
 =cut
 
-use Moo::Role;
+use Package::Variant
+    importing => ['Moo::Role'],
+    subs => [ qw(has) ];
 
 use MooX 'late';
 
@@ -27,32 +29,45 @@ our $VERSION = '0.0.1';
 
 with ('XML::GrammarBase::Role::RelaxNG');
 
-has 'xslt_transform_basename' => (isa => 'Str', is => 'rw');
-has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
+sub make_variant
+{
+    my ($class, $target_package, %args) = @_;
+
+    my $output_format = $args{output_format};
+
+    has "to_${output_format}_xslt_transform_basename"
+        => (isa => 'Str', is => 'rw');
+
+    has "_to_${output_format}_stylesheet" =>
+    (
+        isa => "XML::LibXSLT::StylesheetWrapper",
+        is => 'rw',
+        default => sub { return shift->_calc_stylesheet($output_format), },
+        lazy => 1,
+    );
+
+    return;
+}
+
 has '_xml_parser' => (
     isa => "XML::LibXML",
     is => 'rw',
     default => sub { return XML::LibXML->new; },
     lazy => 1,
 );
+
 has '_xslt_parser' => (
     isa => "XML::LibXSLT",
     is => 'rw',
     default => sub { return XML::LibXSLT->new; },
     lazy => 1,
 );
-has '_stylesheet' => (
-    isa => "XML::LibXSLT::StylesheetWrapper",
-    is => 'rw',
-    default => sub { return shift->_calc_stylesheet(), },
-    lazy => 1,
-);
 
 sub _calc_stylesheet {
-    my $self = shift;
+    my ($self, $output_format) = @_;
 
     my $style_doc = $self->_xml_parser()->parse_file(
-        $self->dist_path_slot('xslt_transform_basename'),
+        $self->dist_path_slot("to_{$output_format}_xslt_transform_basename"),
     );
 
     return $self->_xslt_parser->parse_stylesheet($style_doc);
@@ -113,9 +128,11 @@ sub perform_xslt_translation
 {
     my ($self, $args) = @_;
 
+    my $output_format = $args->{output_format};
     my $source_dom = $self->_get_dom_from_source($args);
 
-    my $stylesheet = $self->_stylesheet();
+    my $stylesheet_method = "_to_${output_format}_stylesheet";
+    my $stylesheet = $self->$stylesheet_method();
 
 
     my $medium = $args->{output};
@@ -245,7 +262,11 @@ C<'file'> or a C<'fh'> with a filepath or filehandle respectively.
 
 =head2 BUILD
 
-L<Any::Moose> constructor. For internal use.
+L<Moo> constructor. For internal use.
+
+=head2 make_variant
+
+L<Package::Variant> constructor. For internal use.
 
 =head1 AUTHOR
 

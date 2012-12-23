@@ -11,12 +11,17 @@ use MooX 'late';
 
 use File::Spec;
 
-with ('XML::GrammarBase::Role::XSLT');
+use XML::GrammarBase::Role::RelaxNG;
+use XML::GrammarBase::Role::XSLT;
+
+with ('XML::GrammarBase::Role::RelaxNG');
+with XSLT(output_format => 'html');
 
 has '+module_base' => (default => 'XML-GrammarBase');
 has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "t", "data"));
-has '+xslt_transform_basename' => (default => 'fiction-xml-to-html.xslt');
 has '+rng_schema_basename' => (default => 'fiction-xml.rng');
+
+has '+to_html_xslt_transform_basename' => (default => 'fiction-xml-to-html.xslt');
 
 package main;
 
@@ -70,6 +75,7 @@ sub test_file
     {
         my $final_source = $xslt->perform_xslt_translation(
             {
+                output_format => 'html',
                 source => {file => $input_fn, },
                 output => "string",
             }
@@ -88,6 +94,7 @@ sub test_file
     {
         my $final_source = $xslt->perform_xslt_translation(
             {
+                output_format => 'html',
                 source => {string_ref => \(_utf8_slurp($input_fn)) },
                 output => "string",
             }
@@ -106,6 +113,7 @@ sub test_file
     {
         my $final_dom = $xslt->perform_xslt_translation(
             {
+                output_format => 'html',
                 source => {string_ref => \(_utf8_slurp($input_fn)) },
                 output => "dom",
             }
@@ -126,6 +134,7 @@ sub test_file
 
         $xslt->perform_xslt_translation(
             {
+                output_format => 'html',
                 source => {string_ref => \(_utf8_slurp($input_fn)) },
                 output => {file => $filename, },
             }
@@ -147,6 +156,7 @@ sub test_file
 
         $xslt->perform_xslt_translation(
             {
+                output_format => 'html',
                 source => {string_ref => \(_utf8_slurp($input_fn)) },
                 output => {fh => $fh, },
             }
