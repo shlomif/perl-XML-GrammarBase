@@ -37,6 +37,7 @@ sub _calc_default_data_dir
 
 sub _undefize
 {
+    my $class = shift;
     my $v = shift;
 
     return defined($v) ? $v : "(undef)";
