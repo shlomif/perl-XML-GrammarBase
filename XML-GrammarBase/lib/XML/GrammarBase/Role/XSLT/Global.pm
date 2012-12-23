@@ -45,7 +45,7 @@ sub _calc_stylesheet {
     my ($self, $output_format) = @_;
 
     my $style_doc = $self->_xml_parser()->parse_file(
-        $self->dist_path_slot("to_{$output_format}_xslt_transform_basename"),
+        $self->dist_path_slot("to_${output_format}_xslt_transform_basename"),
     );
 
     return $self->_xslt_parser->parse_stylesheet($style_doc);

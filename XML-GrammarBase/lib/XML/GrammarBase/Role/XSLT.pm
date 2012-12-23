@@ -15,7 +15,7 @@ Version 0.0.1
 =cut
 
 use Package::Variant
-    importing => ['Moo::Role', 'MooX' => ['late'],],
+    importing => ['Moo::Role', 'MooX::Role' => ['late'],],
     subs => [ qw(has with) ];
 
 # use MooX 'late';
