@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::Role::XSLT - a parameterized role for an XSLT converter.
+XML::GrammarBase::Role::XSLT - a parameterized role for a XSLT conversions.
 
 =head1 VERSION
 
@@ -52,23 +52,43 @@ sub make_variant
 
 =head1 SYNOPSIS
 
-    package XML::Grammar::MyGrammar::RelaxNG::Validate;
+    package XML::Grammar::MyGrammar::ToOtherStuff;
 
-    use Any::Moose;
+    use MooX 'late';
+
+    use XML::GrammarBase::Role::RelaxNG;
+    use XML::GrammarBase::Role::XSLT;
 
     with ('XML::GrammarBase::Role::RelaxNG');
+    with XSLT(output_format => 'html');
+    with XSLT(output_format => 'docbook');
 
-    has '+module_base' => (default => 'XML::Grammar::MyGrammar');
+    has '+module_base' => (default => 'XML-Grammar-MyGrammar');
     has '+rng_schema_basename' => (default => 'my-grammar.rng');
+
+    has '+to_html_xslt_transform_basename' => (default => 'mygrammar-xml-to-html.xslt');
+    has '+to_docbook_xslt_transform_basename' => (default => 'mygrammar-xml-to-docbook.xslt');
 
     package main;
 
-    my $rnger = XML::Grammar::MyGrammar::RelaxNG::Validate->new(
+    my $xslt = XML::Grammar::MyGrammar::ToOtherStuff->new(
         data_dir => "/path/to/data-dir",
     );
 
     # Throws an exception on failure.
-    $rnger->rng_validate_file("/different-path-to-xml-file.xml");
+    my $as_html = $xslt->perform_xslt_translation(
+        {
+            output_format => 'html'
+            source => {file => $input_filename, },
+            output => "string",
+        }
+    );
+
+=head1 PARAMATERS
+
+=head2 output_format
+
+A Perl identifier string identifying the format.
 
 =head1 SLOTS
 
@@ -83,6 +103,13 @@ The data directory where the XML assets can be found (the RELAX NG schema, etc.)
 =head2 rng_schema_basename
 
 The Relax NG Schema basename.
+
+=head2 to_${output_format}_xslt_transform_basename
+
+The basename of the primary XSLT transform file. Should be overrided in
+the constructor or using C<has '+to_html'>. For example:
+
+    has '+to_html_xslt_transform_basename' => (default => 'fiction-xml-to-html.xslt');
 
 =head1 METHODS
 
@@ -102,21 +129,22 @@ Validates the XML in the $xml_string using the RELAX-NG schema.
 
 =over 4
 
-=item * my $final_source = $converter->perform_xslt_translation({source => {file => $filename}, output => "string" })
+=item * my $final_source = $converter->perform_xslt_translation({output_format => $format, source => {file => $filename}, output => "string" })
 
-=item * my $final_source = $converter->perform_xslt_translation({source => {string_ref => \$buffer}, output => "string" })
+=item * my $final_source = $converter->perform_xslt_translation({output_format => $format, source => {string_ref => \$buffer}, output => "string" })
 
-=item * my $final_dom = $converter->perform_xslt_translation({source => {file => $filename}, output => "dom" })
+=item * my $final_dom = $converter->perform_xslt_translation({output_format => $format, source => {file => $filename}, output => "dom" })
 
-=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => "dom" })
+=item * my $final_dom = $converter->perform_xslt_translation({output_format => $format, source => {dom => $libxml_dom}, output => "dom" })
 
-=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => {file => $path_to_file,}, })
+=item * my $final_dom = $converter->perform_xslt_translation({output_format => $format, source => {dom => $libxml_dom}, output => {file => $path_to_file,}, })
 
-=item * my $final_dom = $converter->perform_xslt_translation({source => {dom => $libxml_dom}, output => {fh => $filehandle,}, })
+=item * my $final_dom = $converter->perform_xslt_translation({output_format => $format, source => {dom => $libxml_dom}, output => {fh => $filehandle,}, })
 
 =back
 
-Does the actual conversion. The C<'source'> argument points to a hash-ref with
+This method does the actual conversion with the output format of
+$format. The C<'source'> argument points to a hash-ref with
 keys and values for the source. If C<'file'> is specified there it points to the
 filename to translate (currently the only available source). If
 C<'string_ref'> is specified it points to a reference to a string, with the
@@ -148,8 +176,12 @@ Please report any bugs or feature requests to C<bug-xml-grammarbase at rt.cpan.o
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-GrammarBase>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
+=head1 THANKS
 
-
+Thanks to Matt S. Trout L<http://metacpan.org/author/MSTROUT> and other
+people from #moose on irc.perl.org for helping me figure out
+L<Moo> / L<MooX> and steer me away from L<Any::Moose> , and for writing
+the L<Moo> ecosystem.
 
 =head1 SUPPORT
 
