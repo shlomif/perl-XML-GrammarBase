@@ -15,10 +15,10 @@ Version 0.0.1
 =cut
 
 use Package::Variant
-    importing => ['Moo::Role'],
+    importing => ['Moo::Role', 'MooX' => ['late'],],
     subs => [ qw(has) ];
 
-use MooX 'late';
+# use MooX 'late';
 
 use XML::LibXML;
 use XML::LibXSLT;
@@ -27,7 +27,7 @@ use autodie;
 
 our $VERSION = '0.0.1';
 
-with ('XML::GrammarBase::Role::RelaxNG');
+with ('XML::GrammarBase::Role::XSLT::Global');
 
 sub make_variant
 {
@@ -48,20 +48,6 @@ sub make_variant
 
     return;
 }
-
-has '_xml_parser' => (
-    isa => "XML::LibXML",
-    is => 'rw',
-    default => sub { return XML::LibXML->new; },
-    lazy => 1,
-);
-
-has '_xslt_parser' => (
-    isa => "XML::LibXSLT",
-    is => 'rw',
-    default => sub { return XML::LibXSLT->new; },
-    lazy => 1,
-);
 
 sub _calc_stylesheet {
     my ($self, $output_format) = @_;

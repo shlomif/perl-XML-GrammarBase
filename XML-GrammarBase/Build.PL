@@ -10,6 +10,9 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => q{Shlomi Fish <shlomif@cpan.org>},
     dist_version_from   => 'lib/XML/GrammarBase.pm',
+    configure_requires => {
+        'Module::Build' => '0.36',
+    },
     requires => {
         'autodie' => 0,
         'File::ShareDir' => 0,
