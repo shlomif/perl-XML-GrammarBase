@@ -1,5 +1,11 @@
 Revision history for XML-GrammarBase
 
+0.0.2    Tue 25 Dec 14:51:32 IST 2012
+         Convert to «use MooX::Role 'late';» instead of the previous
+         incantation.
+            - it broke the tests on many CPAN smokers and on a fresh perl
+            installation.
+
 0.0.1    Sun 23 Dec 19:03:43 IST 2012
          First version, released on an unsuspecting world.
 
