@@ -18,6 +18,7 @@ my $builder = Test::Run::Builder->new(
         'File::ShareDir' => 0,
         'Moo::Role' => 0,
         'MooX' => 0,
+        'MooX::Role' => 0,
         'MooX::late' => 0,
         'MooX::Types::MooseLike' => 0,
         'Package::Variant' => 0,

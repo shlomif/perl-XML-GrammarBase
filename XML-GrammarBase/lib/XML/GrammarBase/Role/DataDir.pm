@@ -14,9 +14,7 @@ Version 0.0.1
 
 =cut
 
-use Moo::Role;
-
-use MooX 'late';
+use MooX::Role 'late';
 
 use File::ShareDir qw(dist_dir);
 
