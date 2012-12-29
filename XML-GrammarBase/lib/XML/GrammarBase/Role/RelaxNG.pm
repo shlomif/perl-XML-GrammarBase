@@ -98,7 +98,7 @@ sub rng_validate_string
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
 
-    use Any::Moose;
+    use MooX 'late';
 
     with ('XML::GrammarBase::Role::RelaxNG');
 
