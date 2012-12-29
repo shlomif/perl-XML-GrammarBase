@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+0.0.3    Sat 29 Dec 22:26:34 IST 2012
+         Change a wrong synopsis - it was "use Any::Moose;" instead of
+         "use MooX 'late';".
+
 0.0.2    Tue 25 Dec 14:51:32 IST 2012
          Convert to «use MooX::Role 'late';» instead of the previous
          incantation.
