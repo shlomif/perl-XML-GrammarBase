@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-XML::GrammarBase::Role::XSLT - a parameterized role for a XSLT conversions.
+XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
 
 =head1 VERSION
 
