@@ -31,7 +31,7 @@ It provides roles and base classes for facilitating writing those.
 
 =head1 SEE ALSO
 
-L<XML::GrammarBase::Role::RelaxNG> .
+L<XML::GrammarBase::Role::RelaxNG> , L<XML::GrammarBase::Role::XSLT> .
 
 =head1 FUNCTIONS
 
