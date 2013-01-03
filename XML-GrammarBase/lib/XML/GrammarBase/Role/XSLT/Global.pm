@@ -98,6 +98,8 @@ sub perform_xslt_translation
     my ($self, $args) = @_;
 
     my $output_format = $args->{output_format};
+    my $encoding = ($args->{encoding} || 'utf8');
+
     my $source_dom = $self->_get_dom_from_source($args);
 
     my $stylesheet_method = "_to_${output_format}_stylesheet";
@@ -116,7 +118,9 @@ sub perform_xslt_translation
         return
             $is_dom
             ? $results
-            : $stylesheet->output_string($results)
+            : ($encoding eq 'bytes')
+            ? $stylesheet->output_as_bytes($results)
+            : $stylesheet->output_as_chars($results)
             ;
     }
     elsif (ref($medium) eq 'HASH')
