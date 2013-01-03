@@ -34,6 +34,28 @@ my $builder = Test::Run::Builder->new(
     },
     add_to_cleanup      => [ 'XML-GrammarBase-*' ],
     create_makefile_pl => 'traditional',
+    meta_merge =>
+    {
+        resources =>
+        {
+            repository => "http://bitbucket.org/shlomif/perl-xml-grammarbase",
+            homepage => "http://www.shlomifish.org/open-source/projects/XML-Grammar/Base/",
+        },
+        keywords =>
+        [
+            "abstraction",
+            "base",
+            "grammar",
+            "moo",
+            "moose",
+            "relaxng",
+            "rng",
+            "role",
+            "roles",
+            "xml",
+            "xslt",
+        ],
+    }
 );
 
 $builder->create_build_script();

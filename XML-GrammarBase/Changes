@@ -1,5 +1,8 @@
 Revision history for XML-GrammarBase
 
+0.1.1    Thu  3 Jan 13:39:42 IST 2013
+         Add keywords and resources to the META.yml / META.json.
+
 0.1.0    Thu  3 Jan 13:33:10 IST 2013
          Add the 'encoding' parameter for output_as_chars() vs.
          output_as_bytes().
