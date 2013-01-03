@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+0.1.0    Thu  3 Jan 13:33:10 IST 2013
+         Add the 'encoding' parameter for output_as_chars() vs.
+         output_as_bytes().
+
 0.0.3    Sat 29 Dec 22:26:34 IST 2012
          Change a wrong synopsis - it was "use Any::Moose;" instead of
          "use MooX 'late';".
