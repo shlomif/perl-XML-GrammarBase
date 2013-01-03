@@ -156,6 +156,10 @@ the XML as a string, and a value of C<'dom'> returns the XML as an
 L<XML::LibXML> DOM object. If it is a hash ref then it specifies a
 C<'file'> or a C<'fh'> with a filepath or filehandle respectively.
 
+An optional C<'encoding'> parameter determines if one should output the string
+as C<'utf8'> (the deafult - using L<XML::LibXSLT>'s
+output_as_chars()) or as C<'bytes'> - using its output_as_bytes() .
+
 =cut
 
 =head2 BUILD
