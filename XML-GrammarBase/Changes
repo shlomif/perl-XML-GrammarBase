@@ -1,5 +1,6 @@
 Revision history for XML-GrammarBase
 
+0.1.2    Sat  5 Jan 10:05:33 IST 2013
          * Add t/01libxml-basic.t for diag()s for libxml2 and XML::LibXML
          (so we'll know which versions of them are failing).
          * Add scripts/bump-version-number.pl .
