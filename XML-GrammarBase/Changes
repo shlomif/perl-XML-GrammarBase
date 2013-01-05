@@ -1,5 +1,8 @@
 Revision history for XML-GrammarBase
 
+         Add t/01libxml-basic.t for diag()s for libxml2 and XML::LibXML
+         (so we'll know which versions of them are failing).
+
 0.1.1    Thu  3 Jan 13:39:42 IST 2013
          Add keywords and resources to the META.yml / META.json.
 

@@ -13,6 +13,7 @@ lib/XML/GrammarBase/Role/RelaxNG.pm
 lib/XML/GrammarBase/Role/XSLT.pm
 lib/XML/GrammarBase/Role/XSLT/Global.pm
 t/00-load.t
+t/01libxml-basic.t
 t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test-docbook-xslt-output.docbook.xml
 t/data/fiction-xml-test-html-xslt-output.xhtml
