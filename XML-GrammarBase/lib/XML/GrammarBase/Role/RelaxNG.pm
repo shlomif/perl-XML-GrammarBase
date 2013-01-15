@@ -10,7 +10,7 @@ XML::GrammarBase::Role::RelaxNG - base class for a RelaxNG validator
 
 =head1 VERSION
 
-Version 0.1.3
+Version 0.1.4
 
 =cut
 
@@ -21,7 +21,7 @@ use XML::LibXML;
 
 with ('XML::GrammarBase::Role::DataDir');
 
-our $VERSION = '0.1.3';
+our $VERSION = '0.1.4';
 
 has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
 has '_rng' =>
