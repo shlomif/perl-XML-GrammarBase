@@ -70,14 +70,24 @@ sub rng_validate_dom
     return;
 }
 
+sub _calc_parser
+{
+    my ($self) = @_;
+
+    my $xml_parser = XML::LibXML->new();
+
+    $xml_parser->validation(0);
+    $xml_parser->load_ext_dtd(0);
+    $xml_parser->no_network(1);
+
+    return $xml_parser;
+}
+
 sub rng_validate_file
 {
     my ($self, $filename) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_file($filename);
+    my $dom = $self->_calc_parser()->parse_file($filename);
 
     return $self->rng_validate_dom($dom);
 }
@@ -86,10 +96,7 @@ sub rng_validate_string
 {
     my ($self, $xml_string) = @_;
 
-    my $xml_parser = XML::LibXML->new();
-    $xml_parser->validation(0);
-
-    my $dom = $xml_parser->parse_string($xml_string);
+    my $dom = $self->_calc_parser()->parse_string($xml_string);
 
     return $self->rng_validate_dom($dom);
 }

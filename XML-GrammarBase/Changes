@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+         * lib/XML/GrammarBase/Role/RelaxNG.pm : add the
+         _calc_parser method that can be overrided for calculating and
+         returning the XML::LibXML parser.
+
 0.1.2    Sat  5 Jan 10:05:33 IST 2013
          * Add t/01libxml-basic.t for diag()s for libxml2 and XML::LibXML
          (so we'll know which versions of them are failing).
