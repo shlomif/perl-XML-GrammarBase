@@ -1,29 +1,36 @@
 #!/usr/bin/perl
 
+package MyClass::WithDataDir;
+
+use MooX 'late';
+
+with ('XML::GrammarBase::Role::DataDir');
+
+has '+module_base' => (default => 'XML::Grammar::MyGrammar');
+
+package main;
+
 use strict;
 use warnings;
 
 use Test::More tests => 1;
 
-package MyClass::WithDataDir;
-
-use Test::More;
-
-use MooX 'late';
-
-BEGIN
 {
-with ('XML::GrammarBase::Role::DataDir');
-};
+    my $obj;
+    eval
+    {
+        # TEST
+        $obj = MyClass::WithDataDir->new;
+        my $test = $obj->module_base;
+    };
 
-eval {
+    my $Err = $@;
 
-has '+module_base' => (default => 'XML::Grammar::MyGrammar');
-
-};
-
-# TEST
-ok ($@, "Validation error for colon delimited values.");
+    # TEST
+    like ($Err, qr/isa check for "module_base" failed/,
+        "Accessing module_base threw an exception",
+    );
+}
 
 =head1 COPYRIGHT & LICENSE
 
