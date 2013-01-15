@@ -1,4 +1,4 @@
-package XML::GrammarBase::Role::RelaxNG;
+package XML::GrammarBase::Role::DataDir;
 
 use strict;
 use warnings;
@@ -20,7 +20,22 @@ use File::ShareDir qw(dist_dir);
 
 our $VERSION = '0.1.2';
 
-has 'module_base' => (isa => 'Str', is => 'rw');
+my $_component_re = qr/[A-Za-z_]\w*/;
+
+has 'module_base' => (isa => sub {
+        my ($dist_name) = @_;
+        print "<<DistName == $dist_name>>\n";
+        if (not (
+                (ref($dist_name) eq '')
+                &&
+                ($dist_name =~ m/\A$_component_re(?:-$_component_re)*\z/)
+            )
+        )
+        {
+            die "module_base must be a distribution string of components separated by dashes";
+        }
+    },
+    , is => 'rw');
 has 'data_dir' => (isa => 'Str', is => 'rw',
     default => sub { return shift->_calc_default_data_dir(); },
     lazy => 1,
