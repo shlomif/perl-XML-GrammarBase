@@ -24,7 +24,6 @@ my $_component_re = qr/[A-Za-z_]\w*/;
 
 has 'module_base' => (isa => sub {
         my ($dist_name) = @_;
-        print "<<DistName == $dist_name>>\n";
         if (not (
                 (ref($dist_name) eq '')
                 &&
