@@ -78,7 +78,7 @@ sub dist_path_slot
 
     with ('XML::GrammarBase::Role::DataDir');
 
-    has '+module_base' => (default => 'XML::Grammar::MyGrammar');
+    has '+module_base' => (default => 'XML-Grammar-MyGrammar');
 
     package main;
 
@@ -90,7 +90,7 @@ sub dist_path_slot
 
 =head2 module_base
 
-The basename of the module - used for dist dir.
+The basename of the distribution - used for dist dir.
 
 =head2 data_dir
 
