@@ -15,6 +15,7 @@ lib/XML/GrammarBase/Role/XSLT/Global.pm
 scripts/bump-version-number.pl
 t/00-load.t
 t/01libxml-basic.t
+t/data_dir.t
 t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test-docbook-xslt-output.docbook.xml
 t/data/fiction-xml-test-html-xslt-output.xhtml
