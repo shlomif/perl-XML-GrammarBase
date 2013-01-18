@@ -10,7 +10,7 @@ XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
 
 =head1 VERSION
 
-Version 0.1.4
+Version 0.1.5
 
 =cut
 
@@ -25,7 +25,7 @@ use XML::LibXSLT;
 
 use autodie;
 
-our $VERSION = '0.1.4';
+our $VERSION = '0.1.5';
 
 
 sub make_variant
