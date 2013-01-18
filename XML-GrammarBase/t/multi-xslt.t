@@ -157,6 +157,8 @@ sub test_file
     {
         my ($fh, $filename) = tempfile();
 
+        binmode ($fh, ':encoding(utf8)');
+
         $xslt->perform_xslt_translation(
             {
                 output_format => $output_format,

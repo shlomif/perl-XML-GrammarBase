@@ -132,6 +132,7 @@ sub perform_xslt_translation
                 {
                     %$args,
                     output => {fh => $out,},
+                    encoding => 'bytes',
                 }
             );
             close ($out);
