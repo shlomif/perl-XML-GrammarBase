@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+v0.1.5  2013-01-18
+        - More fixes to the tests and Unicode handling.
+            - Test for properly emitting Unicode characters.
+
 v0.1.4  2013-01-15
         - Add t/cpan-changes.t and tweaked "Changes" (= this file
         accordingly).
