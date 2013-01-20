@@ -160,6 +160,9 @@ An optional C<'encoding'> parameter determines if one should output the string
 as C<'utf8'> (the deafult - using L<XML::LibXSLT>'s
 output_as_chars()) or as C<'bytes'> - using its output_as_bytes() .
 
+An optional 'xslt_params' parmater allows one to specify a hash of XSLT
+parameters.
+
 =cut
 
 =head2 BUILD

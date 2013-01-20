@@ -1,5 +1,8 @@
 Revision history for XML-GrammarBase
 
+v0.1.6  2013-01-20
+        - Add support for XSLT parameters into the XSLT role.
+
 v0.1.5  2013-01-18
         - More fixes to the tests and Unicode handling.
             - Test for properly emitting Unicode characters.

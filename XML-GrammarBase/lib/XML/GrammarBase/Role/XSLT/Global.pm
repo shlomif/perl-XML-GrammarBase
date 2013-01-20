@@ -111,9 +111,11 @@ sub perform_xslt_translation
     my $is_string = ($medium eq 'string');
     my $is_dom = ($medium eq 'dom');
 
+    my $xslt_params = $args->{xslt_params} || {};
+
     if ($is_string or $is_dom)
     {
-        my $results = $stylesheet->transform($source_dom);
+        my $results = $stylesheet->transform($source_dom, %$xslt_params);
 
         return
             $is_dom
