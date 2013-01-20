@@ -10,7 +10,7 @@ XML::GrammarBase::Role::XSLT::Global - a base, non-parameterised, role for an XS
 
 =head1 VERSION
 
-Version 0.1.5
+Version 0.2.0
 
 =cut
 
@@ -21,7 +21,7 @@ use XML::LibXSLT;
 
 use autodie;
 
-our $VERSION = '0.1.5';
+our $VERSION = '0.2.0';
 
 with ('XML::GrammarBase::Role::RelaxNG');
 
