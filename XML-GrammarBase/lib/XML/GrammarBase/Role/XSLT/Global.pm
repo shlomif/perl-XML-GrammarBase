@@ -10,18 +10,18 @@ XML::GrammarBase::Role::XSLT::Global - a base, non-parameterised, role for an XS
 
 =head1 VERSION
 
-Version 0.2.0
+Version 0.2.1
 
 =cut
 
 use MooX::Role 'late';
 
 use XML::LibXML;
-use XML::LibXSLT;
+use XML::LibXSLT '1.80';
 
 use autodie;
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.2.1';
 
 with ('XML::GrammarBase::Role::RelaxNG');
 

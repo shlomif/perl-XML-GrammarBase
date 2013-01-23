@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+v0.2.1  2013-01-23
+        - Bump the minimal version of XML-LibXSLT to 1.80.
+            - Done in order to avoid test failures.
+
 v0.2.0  2013-01-20
         - Add support for XSLT parameters into the XSLT role.
 
