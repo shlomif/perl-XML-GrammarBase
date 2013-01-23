@@ -25,7 +25,7 @@ my $builder = Test::Run::Builder->new(
         'strict' => 0,
         'warnings' => 0,
         'XML::LibXML' => '2.0013',
-        'XML::LibXSLT' => 0,
+        'XML::LibXSLT' => '1.80',
     },
     build_requires => {
         'File::Temp' => 0,
