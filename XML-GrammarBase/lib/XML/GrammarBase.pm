@@ -10,11 +10,11 @@ specialized XML grammars.
 
 =head1 VERSION
 
-Version 0.2.1
+Version 0.2.2
 
 =cut
 
-our $VERSION = '0.2.1';
+our $VERSION = '0.2.2';
 
 
 =head1 SYNOPSIS
