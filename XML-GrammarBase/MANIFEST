@@ -12,6 +12,7 @@ lib/XML/GrammarBase/Role/RelaxNG.pm
 lib/XML/GrammarBase/Role/XSLT.pm
 lib/XML/GrammarBase/Role/XSLT/Global.pm
 scripts/bump-version-number.pl
+scripts/tag-release.pl
 t/00-load.t
 t/01libxml-basic.t
 t/cpan-changes.t

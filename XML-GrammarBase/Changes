@@ -4,6 +4,7 @@ v0.2.2  2013-05-09
         - Bump the minimal version of XML-LibXML to 2.0017.
             - Done in order to avoid test failures with too low versions
             of libxml2 .
+        - Add scripts/tag-release.pl .
 
 v0.2.1  2013-01-23
         - Bump the minimal version of XML-LibXSLT to 1.80.
