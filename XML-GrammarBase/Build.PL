@@ -24,7 +24,7 @@ my $builder = Test::Run::Builder->new(
         'Package::Variant' => 0,
         'strict' => 0,
         'warnings' => 0,
-        'XML::LibXML' => '2.0013',
+        'XML::LibXML' => '2.0017',
         'XML::LibXSLT' => '1.80',
     },
     build_requires => {
@@ -33,7 +33,6 @@ my $builder = Test::Run::Builder->new(
         'Test::XML::Ordered' => 0,
     },
     add_to_cleanup      => [ 'XML-GrammarBase-*' ],
-    create_makefile_pl => 'traditional',
     meta_merge =>
     {
         resources =>

@@ -17,7 +17,7 @@ Version 0.2.1
 use MooX::Role 'late';
 
 use File::ShareDir qw(dist_dir);
-use XML::LibXML;
+use XML::LibXML '2.0017';
 
 with ('XML::GrammarBase::Role::DataDir');
 
