@@ -1,5 +1,6 @@
 Build.PL
 Changes
+LICENSE
 MANIFEST
 META.json
 META.yml
@@ -16,7 +17,6 @@ scripts/tag-release.pl
 t/00-load.t
 t/01libxml-basic.t
 t/cpan-changes.t
-t/data_dir.t
 t/data/fiction-xml-invalid-test.xml
 t/data/fiction-xml-test-docbook-xslt-output.docbook.xml
 t/data/fiction-xml-test-html-xslt-output.xhtml
@@ -25,6 +25,7 @@ t/data/fiction-xml-to-docbook.xslt
 t/data/fiction-xml-to-html.xslt
 t/data/fiction-xml.rng
 t/data/screenplay-xml/xml/with-tags-inside-paragraphs.xml
+t/data_dir.t
 t/multi-xslt.t
 t/pod-coverage.t
 t/pod.t
