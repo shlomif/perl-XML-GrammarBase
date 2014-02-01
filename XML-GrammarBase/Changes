@@ -2,6 +2,7 @@ Revision history for XML-GrammarBase
 
 v0.2.3  2014-02-01
         - Add the separate LICENSE file (CPANTS Kwalitee).
+        - Minimal version of perl (CPANTS).
 
 v0.2.2  2013-05-09
         - Bump the minimal version of XML-LibXML to 2.0017.
