@@ -30,4 +30,5 @@ t/multi-xslt.t
 t/pod-coverage.t
 t/pod.t
 t/rng.t
+t/style-trailing-space.t
 t/xslt.t
