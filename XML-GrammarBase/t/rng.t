@@ -11,11 +11,12 @@ use MooX 'late';
 
 use File::Spec;
 
-with ('XML::GrammarBase::Role::RelaxNG');
+with('XML::GrammarBase::Role::RelaxNG');
 
-has '+module_base' => (default => 'XML-GrammarBase');
-has '+data_dir' => (default => File::Spec->catdir(File::Spec->curdir(), "t", "data"));
-has '+rng_schema_basename' => (default => 'fiction-xml.rng');
+has '+module_base' => ( default => 'XML-GrammarBase' );
+has '+data_dir' =>
+    ( default => File::Spec->catdir( File::Spec->curdir(), "t", "data" ) );
+has '+rng_schema_basename' => ( default => 'fiction-xml.rng' );
 
 package main;
 
@@ -39,7 +40,7 @@ sub _utf8_slurp
 # TEST:$c=0;
 sub test_file
 {
-    my ($filename, $assert_cb) = @_;
+    my ( $filename, $assert_cb ) = @_;
 
     {
         my $rng = MyGrammar::RNG->new();
@@ -48,35 +49,28 @@ sub test_file
         $xml_parser->validation(0);
 
         my $dom = $xml_parser->parse_file($filename);
-        eval {
-            $rng->rng_validate_dom($dom);
-        };
+        eval { $rng->rng_validate_dom($dom); };
 
         # TEST:$c++;
-        $assert_cb->($@, "rng_validate_dom()");
+        $assert_cb->( $@, "rng_validate_dom()" );
     }
 
     {
         my $rng = MyGrammar::RNG->new();
 
-        eval {
-            $rng->rng_validate_file($filename);
-        };
+        eval { $rng->rng_validate_file($filename); };
 
         # TEST:$c++;
-        $assert_cb->($@, "rng_validate_file()");
+        $assert_cb->( $@, "rng_validate_file()" );
     }
-
 
     {
         my $rng = MyGrammar::RNG->new();
 
-        eval {
-            $rng->rng_validate_string(_utf8_slurp($filename));
-        };
+        eval { $rng->rng_validate_string( _utf8_slurp($filename) ); };
 
         # TEST:$c++;
-        $assert_cb->($@, "rng_validate_string()");
+        $assert_cb->( $@, "rng_validate_string()" );
     }
 }
 
@@ -87,11 +81,11 @@ test_file(
         File::Spec->curdir(), "t", "data", "fiction-xml-test.xml"
     ),
     sub {
-        my $Err = shift;
+        my $Err   = shift;
         my $blurb = shift;
 
         # TEST*$test_file
-        is ($Err, '', "$blurb - No exception was thrown", );
+        is( $Err, '', "$blurb - No exception was thrown", );
     }
 );
 
@@ -100,11 +94,11 @@ test_file(
         File::Spec->curdir(), "t", "data", "fiction-xml-invalid-test.xml"
     ),
     sub {
-        my $Err = shift;
+        my $Err   = shift;
         my $blurb = shift;
 
         # TEST*$test_file
-        ok ($Err, "$blurb - An exception was thrown",);
+        ok( $Err, "$blurb - An exception was thrown", );
     }
 );
 

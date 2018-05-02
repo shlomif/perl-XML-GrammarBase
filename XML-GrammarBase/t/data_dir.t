@@ -4,9 +4,9 @@ package MyClass::WithDataDir;
 
 use MooX 'late';
 
-with ('XML::GrammarBase::Role::DataDir');
+with('XML::GrammarBase::Role::DataDir');
 
-has '+module_base' => (default => 'XML::Grammar::MyGrammar');
+has '+module_base' => ( default => 'XML::Grammar::MyGrammar' );
 
 package main;
 
@@ -17,8 +17,7 @@ use Test::More tests => 1;
 
 {
     my $obj;
-    eval
-    {
+    eval {
         # TEST
         $obj = MyClass::WithDataDir->new;
         my $test = $obj->module_base;
@@ -27,7 +26,9 @@ use Test::More tests => 1;
     my $Err = $@;
 
     # TEST
-    like ($Err, qr/isa check for "module_base" failed/,
+    like(
+        $Err,
+        qr/isa check for "module_base" failed/,
         "Accessing module_base threw an exception",
     );
 }

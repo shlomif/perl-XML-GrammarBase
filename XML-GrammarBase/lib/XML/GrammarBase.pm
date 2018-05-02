@@ -104,4 +104,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-1; # End of XML::GrammarBase
+1;    # End of XML::GrammarBase

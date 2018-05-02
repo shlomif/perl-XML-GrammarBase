@@ -3,7 +3,6 @@ package XML::GrammarBase::Role::XSLT::Global;
 use strict;
 use warnings;
 
-
 =head1 NAME
 
 XML::GrammarBase::Role::XSLT::Global - a base, non-parameterised, role for an XSLT converter.
@@ -17,28 +16,31 @@ use XML::LibXSLT '1.80';
 
 use autodie;
 
-with ('XML::GrammarBase::Role::RelaxNG');
+with('XML::GrammarBase::Role::RelaxNG');
 
 has '_xml_parser' => (
-    isa => "XML::LibXML",
-    is => 'rw',
+    isa     => "XML::LibXML",
+    is      => 'rw',
     default => sub { return XML::LibXML->new; },
-    lazy => 1,
+    lazy    => 1,
 );
 
 has '_xslt_parser' => (
-    isa => "XML::LibXSLT",
-    is => 'rw',
+    isa     => "XML::LibXSLT",
+    is      => 'rw',
     default => sub { return XML::LibXSLT->new; },
-    lazy => 1,
+    lazy    => 1,
 );
 
-sub _calc_stylesheet {
-    my ($self, $output_format) = @_;
+sub _calc_stylesheet
+{
+    my ( $self, $output_format ) = @_;
 
-    my $style_doc = $self->_xml_parser()->parse_file(
+    my $style_doc =
+        $self->_xml_parser()
+        ->parse_file(
         $self->dist_path_slot("to_${output_format}_xslt_transform_basename"),
-    );
+        );
 
     return $self->_xslt_parser->parse_stylesheet($style_doc);
 }
@@ -51,12 +53,10 @@ sub _calc_and_ret_dom_without_validate
     my $source = $args->{source};
 
     return
-          exists($source->{'dom'})
-        ? $source->{'dom'}
-        : exists($source->{'string_ref'})
-        ? $self->_xml_parser()->parse_string(${$source->{'string_ref'}})
-        : $self->_xml_parser()->parse_file($source->{'file'})
-        ;
+          exists( $source->{'dom'} ) ? $source->{'dom'}
+        : exists( $source->{'string_ref'} )
+        ? $self->_xml_parser()->parse_string( ${ $source->{'string_ref'} } )
+        : $self->_xml_parser()->parse_file( $source->{'file'} );
 }
 
 sub _get_dom_from_source
@@ -68,20 +68,17 @@ sub _get_dom_from_source
 
     my $ret_code;
 
-    eval
-    {
-        $ret_code = $self->_rng()->validate($source_dom);
-    };
+    eval { $ret_code = $self->_rng()->validate($source_dom); };
 
-    if (defined($ret_code) && ($ret_code == 0))
+    if ( defined($ret_code) && ( $ret_code == 0 ) )
     {
         # It's OK.
     }
     else
     {
         confess "RelaxNG validation failed [\$ret_code == "
-            . $self->_undefize($ret_code) . " ; $@]"
-            ;
+            . $self->_undefize($ret_code)
+            . " ; $@]";
     }
 
     return $source_dom;
@@ -89,58 +86,52 @@ sub _get_dom_from_source
 
 sub perform_xslt_translation
 {
-    my ($self, $args) = @_;
+    my ( $self, $args ) = @_;
 
     my $output_format = $args->{output_format};
-    my $encoding = ($args->{encoding} || 'utf8');
+    my $encoding = ( $args->{encoding} || 'utf8' );
 
     my $source_dom = $self->_get_dom_from_source($args);
 
     my $stylesheet_method = "_to_${output_format}_stylesheet";
-    my $stylesheet = $self->$stylesheet_method();
-
+    my $stylesheet        = $self->$stylesheet_method();
 
     my $medium = $args->{output};
 
-    my $is_string = ($medium eq 'string');
-    my $is_dom = ($medium eq 'dom');
+    my $is_string = ( $medium eq 'string' );
+    my $is_dom    = ( $medium eq 'dom' );
 
     my $xslt_params = $args->{xslt_params} || {};
 
-    if ($is_string or $is_dom)
+    if ( $is_string or $is_dom )
     {
-        my $results = $stylesheet->transform($source_dom, %$xslt_params);
+        my $results = $stylesheet->transform( $source_dom, %$xslt_params );
 
         return
-            $is_dom
-            ? $results
-            : ($encoding eq 'bytes')
-            ? $stylesheet->output_as_bytes($results)
-            : $stylesheet->output_as_chars($results)
-            ;
+              $is_dom                  ? $results
+            : ( $encoding eq 'bytes' ) ? $stylesheet->output_as_bytes($results)
+            :                            $stylesheet->output_as_chars($results);
     }
-    elsif (ref($medium) eq 'HASH')
+    elsif ( ref($medium) eq 'HASH' )
     {
-        if (exists($medium->{'file'}))
+        if ( exists( $medium->{'file'} ) )
         {
             open my $out, '>', $medium->{'file'};
             $self->perform_xslt_translation(
                 {
                     %$args,
-                    output => {fh => $out,},
+                    output   => { fh => $out, },
                     encoding => 'bytes',
                 }
             );
-            close ($out);
+            close($out);
             return;
         }
-        if (exists($medium->{'fh'}))
+        if ( exists( $medium->{'fh'} ) )
         {
-            print {$medium->{'fh'}}
-            $self->perform_xslt_translation(
+            print { $medium->{'fh'} } $self->perform_xslt_translation(
                 {
-                    %$args,
-                    output => "string",
+                    %$args, output => "string",
                 }
             );
             return;
@@ -244,5 +235,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-1; # End of XML::GrammarBase::RelaxNG::Validate
+1;    # End of XML::GrammarBase::RelaxNG::Validate
 
