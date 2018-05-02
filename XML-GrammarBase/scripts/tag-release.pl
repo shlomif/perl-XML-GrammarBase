@@ -15,7 +15,7 @@ if ( !defined($version) )
 }
 
 my @cmd = (
-    "hg", "tag", "-m", "Tagging the XML-GrammarBase release as $version",
+    "git", "tag", "-m", "Tagging the XML-GrammarBase release as $version",
     "XML-GrammarBase-v$version",
 );
 
