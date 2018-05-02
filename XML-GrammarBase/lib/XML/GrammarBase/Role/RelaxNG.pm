@@ -3,7 +3,6 @@ package XML::GrammarBase::Role::RelaxNG;
 use strict;
 use warnings;
 
-
 =head1 NAME
 
 XML::GrammarBase::Role::RelaxNG - base class for a RelaxNG validator
@@ -15,15 +14,14 @@ use MooX::Role 'late';
 use File::ShareDir qw(dist_dir);
 use XML::LibXML '2.0017';
 
-with ('XML::GrammarBase::Role::DataDir');
+with('XML::GrammarBase::Role::DataDir');
 
-has 'rng_schema_basename' => (isa => 'Str', is => 'rw');
-has '_rng' =>
-(
-    isa => 'XML::LibXML::RelaxNG',
-    is => 'rw',
+has 'rng_schema_basename' => ( isa => 'Str', is => 'rw' );
+has '_rng' => (
+    isa     => 'XML::LibXML::RelaxNG',
+    is      => 'rw',
     default => sub { return shift->_calc_default_rng_schema; },
-    lazy => 1,
+    lazy    => 1,
 );
 
 sub _calc_default_rng_schema
@@ -32,33 +30,28 @@ sub _calc_default_rng_schema
 
     my $rngschema =
         XML::LibXML::RelaxNG->new(
-            location =>
-            $self->dist_path_slot('rng_schema_basename'),
-        );
+        location => $self->dist_path_slot('rng_schema_basename'), );
 
     return $rngschema;
 }
 
 sub rng_validate_dom
 {
-    my ($self, $source_dom) = @_;
+    my ( $self, $source_dom ) = @_;
 
     my $ret_code;
 
-    eval
-    {
-        $ret_code = $self->_rng()->validate($source_dom);
-    };
+    eval { $ret_code = $self->_rng()->validate($source_dom); };
 
-    if (defined($ret_code) && ($ret_code == 0))
+    if ( defined($ret_code) && ( $ret_code == 0 ) )
     {
         # It's OK.
     }
     else
     {
         confess "RelaxNG validation failed [\$ret_code == "
-            . $self->_undefize($ret_code) . " ; $@]"
-            ;
+            . $self->_undefize($ret_code)
+            . " ; $@]";
     }
 
     return;
@@ -79,7 +72,7 @@ sub _calc_parser
 
 sub rng_validate_file
 {
-    my ($self, $filename) = @_;
+    my ( $self, $filename ) = @_;
 
     my $dom = $self->_calc_parser()->parse_file($filename);
 
@@ -88,7 +81,7 @@ sub rng_validate_file
 
 sub rng_validate_string
 {
-    my ($self, $xml_string) = @_;
+    my ( $self, $xml_string ) = @_;
 
     my $dom = $self->_calc_parser()->parse_string($xml_string);
 
@@ -234,5 +227,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-1; # End of XML::GrammarBase::RelaxNG::Validate
+1;    # End of XML::GrammarBase::RelaxNG::Validate
 

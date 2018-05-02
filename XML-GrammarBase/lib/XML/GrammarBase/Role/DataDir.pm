@@ -3,7 +3,6 @@ package XML::GrammarBase::Role::DataDir;
 use strict;
 use warnings;
 
-
 =head1 NAME
 
 XML::GrammarBase::Role::DataDir - provide the data_dir accessor.
@@ -16,22 +15,26 @@ use File::ShareDir qw(dist_dir);
 
 my $_component_re = qr/[A-Za-z_]\w*/;
 
-has 'module_base' => (isa => sub {
+has 'module_base' => (
+    isa => sub {
         my ($dist_name) = @_;
-        if (not (
-                (ref($dist_name) eq '')
-                &&
-                ($dist_name =~ m/\A$_component_re(?:-$_component_re)*\z/)
+        if (
+            not(   ( ref($dist_name) eq '' )
+                && ( $dist_name =~ m/\A$_component_re(?:-$_component_re)*\z/ ) )
             )
-        )
         {
-            die "module_base must be a distribution string of components separated by dashes";
+            die
+"module_base must be a distribution string of components separated by dashes";
         }
     },
-    , is => 'rw');
-has 'data_dir' => (isa => 'Str', is => 'rw',
+    ,
+    is => 'rw'
+);
+has 'data_dir' => (
+    isa     => 'Str',
+    is      => 'rw',
     default => sub { return shift->_calc_default_data_dir(); },
-    lazy => 1,
+    lazy    => 1,
 );
 
 sub _calc_default_data_dir
@@ -44,23 +47,23 @@ sub _calc_default_data_dir
 sub _undefize
 {
     my $class = shift;
-    my $v = shift;
+    my $v     = shift;
 
     return defined($v) ? $v : "(undef)";
 }
 
 sub dist_path
 {
-    my ($self, $basename) = @_;
+    my ( $self, $basename ) = @_;
 
-    return File::Spec->catfile($self->data_dir, $basename);
+    return File::Spec->catfile( $self->data_dir, $basename );
 }
 
 sub dist_path_slot
 {
-    my ($self, $slot) = @_;
+    my ( $self, $slot ) = @_;
 
-    return $self->dist_path($self->$slot());
+    return $self->dist_path( $self->$slot() );
 }
 
 =head1 SYNOPSIS
@@ -178,5 +181,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-1; # End of XML::GrammarBase::RelaxNG::Validate
+1;    # End of XML::GrammarBase::RelaxNG::Validate
 

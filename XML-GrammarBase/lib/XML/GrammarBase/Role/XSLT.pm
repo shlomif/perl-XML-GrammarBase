@@ -10,8 +10,8 @@ XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
 =cut
 
 use Package::Variant
-    importing => ['MooX::Role' => ['late'],],
-    subs => [ qw(has with) ];
+    importing => [ 'MooX::Role' => ['late'], ],
+    subs      => [qw(has with)];
 
 # use MooX 'late';
 
@@ -22,21 +22,20 @@ use autodie;
 
 sub make_variant
 {
-    my ($class, $target_package, %args) = @_;
+    my ( $class, $target_package, %args ) = @_;
 
     my $output_format = $args{output_format};
 
-    with ('XML::GrammarBase::Role::XSLT::Global');
+    with('XML::GrammarBase::Role::XSLT::Global');
 
-    has "to_${output_format}_xslt_transform_basename"
-        => (isa => 'Str', is => 'rw');
+    has "to_${output_format}_xslt_transform_basename" =>
+        ( isa => 'Str', is => 'rw' );
 
-    has "_to_${output_format}_stylesheet" =>
-    (
-        isa => "XML::LibXSLT::StylesheetWrapper",
-        is => 'rw',
+    has "_to_${output_format}_stylesheet" => (
+        isa     => "XML::LibXSLT::StylesheetWrapper",
+        is      => 'rw',
         default => sub { return shift->_calc_stylesheet($output_format), },
-        lazy => 1,
+        lazy    => 1,
     );
 
     return;
@@ -244,5 +243,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
 
-1; # End of XML::GrammarBase::RelaxNG::Validate
+1;    # End of XML::GrammarBase::RelaxNG::Validate
 
