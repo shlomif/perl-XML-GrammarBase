@@ -1,3 +1,4 @@
 syntax: glob
 XML-GrammarBase/.build/
+XML-GrammarBase/.tidyall.d/
 XML-GrammarBase/tags
