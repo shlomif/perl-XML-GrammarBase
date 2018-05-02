@@ -3,14 +3,9 @@ package XML::GrammarBase::Role::XSLT;
 use strict;
 use warnings;
 
-
 =head1 NAME
 
 XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
-
-=head1 VERSION
-
-Version 0.2.3
 
 =cut
 
@@ -24,9 +19,6 @@ use XML::LibXML '2.0017';
 use XML::LibXSLT '1.80';
 
 use autodie;
-
-our $VERSION = '0.2.3';
-
 
 sub make_variant
 {

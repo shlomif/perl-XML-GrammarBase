@@ -10,15 +10,6 @@ use 5.008;
 XML::GrammarBase - Provide roles and base classes for processors of
 specialized XML grammars.
 
-=head1 VERSION
-
-Version 0.2.3
-
-=cut
-
-our $VERSION = '0.2.3';
-
-
 =head1 SYNOPSIS
 
 See the ones under the Role packages.
