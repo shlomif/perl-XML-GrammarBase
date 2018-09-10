@@ -1,6 +1,7 @@
 cache:
     directories:
         - $HOME/perl_modules
+        - $HOME/tidyall_d
 
 sudo: false
 language: perl
@@ -12,7 +13,6 @@ perl:
     - '5.20'
     - '5.18'
     - '5.16'
-    - '5.14'
 
 matrix:
     allow_failures:
