@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use strict;
+use warnings;
+
 package MyClass::WithDataDir;
 
 use MooX 'late';
@@ -18,7 +21,6 @@ use Test::More tests => 1;
 {
     my $obj;
     eval {
-        # TEST
         $obj = MyClass::WithDataDir->new;
         my $test = $obj->module_base;
     };
