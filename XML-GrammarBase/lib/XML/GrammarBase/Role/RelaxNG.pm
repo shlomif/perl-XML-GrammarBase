@@ -17,7 +17,7 @@ use XML::LibXML '2.0017';
 with('XML::GrammarBase::Role::DataDir');
 
 has 'rng_schema_basename' => ( isa => 'Str', is => 'rw' );
-has '_rng' => (
+has '_rng'                => (
     isa     => 'XML::LibXML::RelaxNG',
     is      => 'rw',
     default => sub { return shift->_calc_default_rng_schema; },

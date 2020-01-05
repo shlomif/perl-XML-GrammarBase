@@ -89,7 +89,7 @@ sub perform_xslt_translation
     my ( $self, $args ) = @_;
 
     my $output_format = $args->{output_format};
-    my $encoding = ( $args->{encoding} || 'utf8' );
+    my $encoding      = ( $args->{encoding} || 'utf8' );
 
     my $source_dom = $self->_get_dom_from_source($args);
 
