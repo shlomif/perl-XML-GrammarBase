@@ -1,5 +1,11 @@
 Revision history for XML-GrammarBase
 
+0.2.7  2020-01-16
+        - Remove checks for libxslt versions
+            - https://rt.cpan.org/Ticket/Display.html?id=131155
+            - Thanks to SREZIC and others
+            - These checks were much maligned.
+
 0.2.6  2018-05-03
         - Add prereq on MooX::late.
             - See https://rt.cpan.org/Public/Bug/Display.html?id=125264
