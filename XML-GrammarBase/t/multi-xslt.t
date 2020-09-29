@@ -141,7 +141,7 @@ sub test_file
             {
                 output_format => $output_format,
                 source        => { string_ref => \( _utf8_slurp($input_fn) ) },
-                output        => { file => $filename, },
+                output        => { file       => $filename, },
             }
         );
 
@@ -165,7 +165,7 @@ sub test_file
             {
                 output_format => $output_format,
                 source        => { string_ref => \( _utf8_slurp($input_fn) ) },
-                output        => { fh => $fh, },
+                output        => { fh         => $fh, },
             }
         );
 
