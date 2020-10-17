@@ -32,44 +32,6 @@ L<XML::GrammarBase::Role::RelaxNG> , L<XML::GrammarBase::Role::XSLT> .
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
 
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-xml-grammarbase at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-GrammarBase>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc XML::GrammarBase
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=XML-GrammarBase>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/XML-GrammarBase>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/XML-GrammarBase>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/XML-GrammarBase/>
-
-=back
-
-
 =head1 ACKNOWLEDGEMENTS
 
 
@@ -100,7 +62,6 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-
 
 =cut
 

@@ -168,46 +168,6 @@ L<Package::Variant> constructor. For internal use.
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
 
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-xml-grammarbase at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-GrammarBase>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-=head1 THANKS
-
-Thanks to Matt S. Trout L<http://metacpan.org/author/MSTROUT> and other
-people from #moose on irc.perl.org for helping me figure out
-L<Moo> / L<MooX> and steer me away from L<Any::Moose> , and for writing
-the L<Moo> ecosystem.
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc XML::GrammarBase
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=XML-GrammarBase>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/XML-GrammarBase>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/XML-GrammarBase>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/XML-GrammarBase/>
-
-=back
 
 
 =head1 ACKNOWLEDGEMENTS
