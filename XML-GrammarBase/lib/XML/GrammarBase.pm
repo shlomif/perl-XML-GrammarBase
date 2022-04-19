@@ -5,6 +5,10 @@ use strict;
 
 use 5.008;
 
+1;
+
+__END__
+
 =head1 NAME
 
 XML::GrammarBase - Provide roles and base classes for processors of
@@ -64,5 +68,3 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
-
-1;    # End of XML::GrammarBase

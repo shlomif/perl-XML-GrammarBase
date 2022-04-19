@@ -3,12 +3,6 @@ package XML::GrammarBase::Role::XSLT;
 use strict;
 use warnings;
 
-=head1 NAME
-
-XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
-
-=cut
-
 use Package::Variant
     importing => [ 'MooX::Role' => ['late'], ],
     subs      => [qw(has with)];
@@ -40,6 +34,14 @@ sub make_variant
 
     return;
 }
+
+1;
+
+__END__
+
+=head1 NAME
+
+XML::GrammarBase::Role::XSLT - a parameterized role for XSLT conversions.
 
 =head1 SYNOPSIS
 
@@ -202,6 +204,3 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
-
-1;    # End of XML::GrammarBase::RelaxNG::Validate
-

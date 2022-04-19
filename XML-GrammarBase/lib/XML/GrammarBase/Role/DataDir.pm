@@ -66,6 +66,10 @@ sub dist_path_slot
     return $self->dist_path( $self->$slot() );
 }
 
+1;
+
+__END__
+
 =head1 SYNOPSIS
 
     package MyClass::WithDataDir;
@@ -144,6 +148,3 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
-
-1;    # End of XML::GrammarBase::RelaxNG::Validate
-

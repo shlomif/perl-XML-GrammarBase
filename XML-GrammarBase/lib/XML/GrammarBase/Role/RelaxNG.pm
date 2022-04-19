@@ -88,6 +88,10 @@ sub rng_validate_string
     return $self->rng_validate_dom($dom);
 }
 
+1;
+
+__END__
+
 =head1 SYNOPSIS
 
     package XML::Grammar::MyGrammar::RelaxNG::Validate;
@@ -190,6 +194,3 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 =cut
-
-1;    # End of XML::GrammarBase::RelaxNG::Validate
-
