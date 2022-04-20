@@ -1,5 +1,11 @@
 Revision history for XML-GrammarBase
 
+0.2.9       2022-04-20
+    - Minor cleanups:
+        - Remove unused scripts/bump-version.
+        - Fix perltidy tests.
+        - Use __END__ .
+
 0.2.8       2020-10-17
     - dist.ini / weaver.ini / .tidyallrc / etc. cleanup
         - Move to @SHLOMIF
