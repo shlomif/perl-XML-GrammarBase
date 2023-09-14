@@ -1,5 +1,9 @@
 Revision history for XML-GrammarBase
 
+0.2.10      Unknown
+    - Better compatibility with bleadperl
+        - Avoid string versions in "use" statements.
+
 0.2.9       2022-04-20
     - Minor cleanups:
         - Remove unused scripts/bump-version.

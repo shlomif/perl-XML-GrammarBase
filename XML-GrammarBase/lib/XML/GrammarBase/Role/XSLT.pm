@@ -9,8 +9,8 @@ use Package::Variant
 
 # use MooX 'late';
 
-use XML::LibXML '2.0017';
-use XML::LibXSLT '1.80';
+use XML::LibXML 2.0017;
+use XML::LibXSLT 1.80;
 
 use autodie;
 

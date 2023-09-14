@@ -12,7 +12,7 @@ XML::GrammarBase::Role::RelaxNG - base class for a RelaxNG validator
 use MooX::Role 'late';
 
 use File::ShareDir qw(dist_dir);
-use XML::LibXML '2.0017';
+use XML::LibXML 2.0017;
 
 with('XML::GrammarBase::Role::DataDir');
 
